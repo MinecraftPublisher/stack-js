@@ -50,13 +50,14 @@ export const registry = registryDB;
  * @param {object} options - Provide various options for the StackOS instance.
  */
 
-export let color = 'ff60f9';
+export let color = 'ff503d';
+export let path = '/';
 
 export function stack(filesystem, options) {
   const system = {
     memory: {},
     filesystem: filesystem || {
-      'boot.st': new StackFile(registry['boot.st']),
+      '/boot.st': new StackFile(registry['boot.st']),
     },
     /**
      * Executes a StackScript, And allows javascript context if the file matches the registry.
@@ -76,7 +77,7 @@ export function stack(filesystem, options) {
       const code = fileinput.content.split('\n');
       for (var i = 0; i < code.length; i++) {
         var line = code[i];
-        for (var match of line.match(/%{[^}]+}/) || []) {
+        for (var match of line.match(/%{[^%{}]+}/) || []) {
           let output = '';
           // run the code with a custom stdout
           this.execute(
@@ -88,10 +89,11 @@ export function stack(filesystem, options) {
           );
           line = line.replace(match, output);
         }
+        this.memory['path'] = path;
 
         const array = line.split(' ');
-        const command = array[0];
-        const args = array.slice(1).join(' ');
+        let command = array[0];
+        let args = array.slice(1).join(' ');
 
         if (
           line != '' &&
@@ -102,12 +104,12 @@ export function stack(filesystem, options) {
         ) {
           switch (command) {
             case 'echo': {
-              stdout(args + '\n', color);
+              stdout(args, color);
               break;
             }
             case 'hex': {
               if (args.length <= 1) {
-                color = 'ff60f9';
+                color = 'ff503d';
               } else {
                 color = args;
               }
@@ -150,10 +152,80 @@ export function stack(filesystem, options) {
               console.log('output sent');
               break;
             }
+            case 'sleep': {
+              await sleep(parseInt(args));
+              break;
+            }
+
+            /* filesystem-related commands */
+            case 'read': {
+              stdout(
+                this.filesystem[args]?.content ||
+                  "devsh: couldn't find file " + args
+              );
+              break;
+            }
+            case 'write': {
+              this.filesystem[
+                args.split(' ')[0].startsWith('/')
+                  ? args.split(' ')[0]
+                  : path + args.split(' ')[0]
+              ] = new StackFile(args.split(' ').slice(1).join(' '));
+              break;
+            }
+            wdoifmpiwuhdnpiuwg;55$+$+$+3
+            case 'rm': {
+              if(!args.startsWith('/')) args = '/' + args;
+              
+            }
+            case 'cd': {
+              if (args) {
+                if (!args.startsWith('/')) args = path + args;
+                if (args === '.') {
+                } else if (args === '..') {
+                  let modified = path.split('/');
+                  modified.pop();
+                  modified.pop();
+                  path = modified.join('/') + '/';
+                } else if (
+                  Object.keys(path.split('/')).filter((filename) =>
+                    filename.startsWith(args)
+                  ).length >= 1
+                ) {
+                  if (!args.endsWith('/')) args = args + '/';
+                  else if (args.startsWith('/')) path = args;
+                  else path += args;
+                } else {
+                  stdout('devsh: directory not found: ' + args);
+                }
+              } else {
+                path = '/';
+              }
+              break;
+            }
+            case 'ls': {
+              stdout('--------');
+              let wrote = [];
+              for (const filename of Object.keys(this.filesystem)) {
+                if (filename.split('/').length === path.split('/').length)
+                  wrote.push(filename);
+                else
+                  wrote.push(
+                    filename
+                      .split('/')
+                      .slice(0, path.split('/').length)
+                      .join('/') + '/'
+                  );
+              }
+              stdout(wrote.join('\n'));
+              stdout('--------');
+
+              break;
+            }
             case 'import': {
               if (!isolated) {
                 this.execute(
-                  this.filesystem[args] ||
+                  this.filesystem[path + args] ||
                     new StackFile(
                       'echo devsh: couldn\'t find file "' + args + '"'
                     ),
@@ -170,9 +242,6 @@ export function stack(filesystem, options) {
                 );
               }
               break;
-            }
-            case 'sleep': {
-              await sleep(parseInt(args));
             }
             case 'module': {
               if (!isolated) {
@@ -195,6 +264,8 @@ export function stack(filesystem, options) {
               }
               break;
             }
+            /* filesystem-related commands */
+
             case 'func': {
               this.memory[`FUNCTION[${args}]`] = new StackFile(
                 '# function: ' + args

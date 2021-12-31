@@ -13,12 +13,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <!-- xterm -->
-    <script src="https://unpkg.com/xterm"></script>
-    <link rel="stylesheet" href="https://unpkg.com/xterm@4.16.0/css/xterm.css" />
-    <!-- xterm -->
-
   </head>
   <body>
     <img
@@ -63,7 +57,7 @@
             while (true) { await EmuVBE["sleep"](100); if (EmuVBE["input_queue"][EmuVBE["input_queue"].length - 1] == "Enter") { EmuVBE["input_queue"].pop(); let data = EmuVBE["input_queue"].join(""); EmuVBE["input_queue"] = []; EmuVBE["input_enabled"] = false; return data; } }
         }
         function stdout(output, line, color) {
-            EmuVBE["log"](`<span style="color: #${color ? color : "6660ff"};">${output}</span>` + (!line ? "<br>": ""))
+            EmuVBE["log"](`<span style="color: #${color ? color : "3d84ff"};">${output}</span>` + (!line ? "<br>": ""))
             // EmuVBE["log"](output)
         }
         function stdclear() {
@@ -83,7 +77,7 @@ let thing = document.querySelector("#textarea").innerHTML.split('');thing.pop();
                 if (!window.EmuVBE["input_enabled"]) e.preventDefault()
             },
             "log": function (input) {
-              document.querySelector("#textarea").innerHTML += input
+              document.querySelector("#textarea").innerHTML += input.split('\n').join('<br>')
             },
             "log_line": function (input) {
                 window.EmuVBE["log"](input + "\n")
@@ -106,7 +100,6 @@ let resultRecieved = false
 let result = ""
 
 let stackjs;
-let stack;
 let version;
 
 const sleep = (milliseconds) => {
@@ -135,6 +128,9 @@ async function stdout(input) { postMessage(["out", input, stackjs.color]) };
 onmessage = async function(e) {
   if (e.data[0] == "execute") {
     version.execute(new stackjs.StackFile(e.data[1]), stdin, stdout, stdclear)
+  } else if (e.data[0] == "fs") {
+    postMessage(["fs", version.filesystem])
+    if(e.data[1]) version.filesystem = e.data[1]
   } else if(runnable) {
     // check for stdin result
     resultRecieved = true
@@ -154,6 +150,11 @@ onmessage = async function(e) {
             const prompt = e.data[1]
             if(type==="in") {
               window.worker.postMessage(await stdin(prompt))
+            } else if(type==="fs") {
+              localStorage.setItem("fs", JSON.stringify(prompt))
+              setTimeout(() => {
+                window.worker.postMessage(["fs"])
+              }, 10000)
             } else if(type==="clear") {
               stdclear()
             } else if(type==="out") {
@@ -162,6 +163,8 @@ onmessage = async function(e) {
           }
           window.worker.postMessage("init")
           await EmuVBE.sleep(100)
+          window.worker.postMessage(["fs", JSON.parse(localStorage.getItem("fs"))])
+          await EmuVBE.sleep(500)
           window.worker.postMessage(["execute", 'import boot.st'])
         } else {
           window.EmuVBE.log("devsh: browser is not compatible with web workers")
@@ -223,7 +226,7 @@ onmessage = async function(e) {
         border: 5px solid #2b2d39;
         display: inline-block;
         background-color: #282a36;
-        color: #6660ff;
+        color: #3d84ff;
         min-height: 14rem;
         width: 90%;
         margin: auto;

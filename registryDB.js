@@ -24,7 +24,7 @@ echo Done writing \${js_filename}`,
   'boot.st': `hex fc447b
 echo StackOS
 sleep 800
-hex 4b80fc
+hex 3dff9e
 echo Loading devshell...
 sleep 500
 hex
@@ -32,7 +32,7 @@ module devsh`,
 
   'devsh.st': `# devshell
 func devsh
-prompt <span style="color: #ffbf49;">devsh</span><span style="color: #ff4949;"> ❯ </span>
+prompt <span style="color: #ffbf49;">devsh <span style="color: #3debff;">%{memread path}</span></span><span style="color: #ff4949;"> ❯ </span>
 input term-input
 run %{memread term-input}
 devsh
