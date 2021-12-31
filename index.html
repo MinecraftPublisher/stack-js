@@ -144,9 +144,7 @@ onmessage = async function(e) {
     runnable = true
     stackjs = await import('https://stack-js.stackblitz.io/stack.js');
     stack = stackjs.default;
-    version = stack({
-      "boot.st": ""
-    })
+    version = stack()
   }
 }`]))
           window.worker = new Worker(codeURI)
