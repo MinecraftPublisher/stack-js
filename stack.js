@@ -160,8 +160,8 @@ export function stack(filesystem, options) {
             /* filesystem-related commands */
             case 'read': {
               stdout(
-                this.filesystem[args]?.content ||
-                  "devsh: couldn't find file " + args
+                this.filesystem[args.startsWith('/') ? args : path + args]
+                  ?.content || "devsh: couldn't find file " + args
               );
               break;
             }
@@ -173,14 +173,15 @@ export function stack(filesystem, options) {
               ] = new StackFile(args.split(' ').slice(1).join(' '));
               break;
             }
-            wdoifmpiwuhdnpiuwg;55$+$+$+3
             case 'rm': {
-              if(!args.startsWith('/')) args = '/' + args;
-              
+              if (!args.startsWith('/')) args = '/' + args;
+              if (this.filesystem[args])
+                this.filesystem.splice(this.filesystem.indexOf(args), 1);
             }
             case 'cd': {
               if (args) {
                 if (!args.startsWith('/')) args = path + args;
+                console.log(args);
                 if (args === '.') {
                 } else if (args === '..') {
                   let modified = path.split('/');
