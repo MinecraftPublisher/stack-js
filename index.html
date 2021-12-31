@@ -63,7 +63,7 @@
             while (true) { await EmuVBE["sleep"](100); if (EmuVBE["input_queue"][EmuVBE["input_queue"].length - 1] == "Enter") { EmuVBE["input_queue"].pop(); let data = EmuVBE["input_queue"].join(""); EmuVBE["input_queue"] = []; EmuVBE["input_enabled"] = false; return data; } }
         }
         function stdout(output, line, color) {
-            EmuVBE["log"](`<span style="color: #${color ? color : "adffd6"};">${output}</span>` + (!line ? "<br>": ""))
+            EmuVBE["log"](`<span style="color: #${color ? color : "6660ff"};">${output}</span>` + (!line ? "<br>": ""))
             // EmuVBE["log"](output)
         }
         function stdclear() {
@@ -98,7 +98,8 @@ let thing = document.querySelector("#textarea").innerHTML.split('');thing.pop();
             }
         }
         window.EmuVBE.setup()
-        if (window.Worker) {
+        window.onload = async () => {
+          if (window.Worker) {
           const codeURI = URL.createObjectURL(new Blob([`
 let runnable = false
 let resultRecieved = false
@@ -165,6 +166,7 @@ onmessage = async function(e) {
         } else {
           window.EmuVBE.log("devsh: browser is not compatible with web workers")
         }
+        }
     </script>
 
 <!-- <textarea spellcheck="false" placeholder="Loading EmuVBE..." onkeydown="window.EmuVBE['input']( event )" name="terminal"></textarea> -->
@@ -221,7 +223,7 @@ onmessage = async function(e) {
         border: 5px solid #2b2d39;
         display: inline-block;
         background-color: #282a36;
-        color: #adffd6;
+        color: #6660ff;
         min-height: 14rem;
         width: 90%;
         margin: auto;

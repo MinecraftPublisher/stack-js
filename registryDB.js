@@ -21,14 +21,18 @@ end filename
 write js_filename js_filetext
 echo Done writing \${js_filename}`,
 
-  'boot.st': `echo error: no boot procedure specified, try uncommenting the line below:
-// module devsh`,
+  'boot.st': `hex fc447b
+echo StackOS
+sleep 800
+hex 4b80fc
+echo Loading devshell...
+sleep 500
+hex
+module devsh`,
 
-  'devsh.st': `// devshell
-echo DevShell
-
+  'devsh.st': `# devshell
 func devsh
-prompt devsh ❯ 
+prompt <span style="color: #ffbf49;">devsh</span><span style="color: #ff4949;"> ❯ </span>
 input term-input
 run %{memread term-input}
 devsh

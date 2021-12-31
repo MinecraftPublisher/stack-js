@@ -50,7 +50,7 @@ export const registry = registryDB;
  * @param {object} options - Provide various options for the StackOS instance.
  */
 
-export let color = 'adffd6';
+export let color = 'ff60f9';
 
 export function stack(filesystem, options) {
   const system = {
@@ -107,7 +107,7 @@ export function stack(filesystem, options) {
             }
             case 'hex': {
               if (args.length <= 1) {
-                color = 'adffd6';
+                color = 'ff60f9';
               } else {
                 color = args;
               }
