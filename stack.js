@@ -119,7 +119,7 @@ export function stack(filesystem, options) {
               break;
             }
             case 'clear': {
-              stdclear();
+              stdclear, isolated, javascript || fileinput.jscontext();
               break;
             }
             case 'prompt': {
@@ -143,14 +143,18 @@ export function stack(filesystem, options) {
                   new StackFile(args),
                   stdin,
                   stdout,
-                  stdclear
+                  stdclear,
+                  isolated,
+                  javascript || fileinput.jscontext
                 );
               } else {
                 await this.execute(
                   new StackFile('echo devsh: program is isolated'),
                   stdin,
                   stdout,
-                  stdclear
+                  stdclear,
+                  isolated,
+                  javascript || fileinput.jscontext
                 );
               }
               break;
@@ -201,14 +205,18 @@ export function stack(filesystem, options) {
                     ),
                   stdin,
                   stdout,
-                  stdclear
+                  stdclear,
+                  isolated,
+                  javascript || fileinput.jscontext
                 );
               } else {
                 await this.execute(
                   new StackFile('echo devsh: program is isolated'),
                   stdin,
                   stdout,
-                  stdclear
+                  stdclear,
+                  isolated,
+                  javascript || fileinput.jscontext
                 );
               }
               break;
@@ -222,14 +230,43 @@ export function stack(filesystem, options) {
                     ),
                   stdin,
                   stdout,
-                  stdclear
+                  stdclear,
+                  isolated,
+                  javascript || fileinput.jscontext
                 );
               } else {
                 await this.execute(
                   new StackFile('echo devsh: program is isolated'),
                   stdin,
                   stdout,
-                  stdclear
+                  stdclear,
+                  isolated,
+                  javascript || fileinput.jscontext
+                );
+              }
+              break;
+            }
+            case 'unlock': {
+              if (javascript || fileinput.jscontext) {
+                this.filesystem[
+                  args.startsWith('/') ? args : path + args
+                ].jscontext = true;
+                await this.execute(
+                  new StackFile('echo File unlocked.'),
+                  stdin,
+                  stdout,
+                  stdclear,
+                  isolated,
+                  javascript || fileinput.jscontext
+                );
+              } else {
+                await this.execute(
+                  new StackFile('echo devsh: jscontext is currently locked.'),
+                  stdin,
+                  stdout,
+                  stdclear,
+                  isolated,
+                  javascript || fileinput.jscontext
                 );
               }
               break;
@@ -238,7 +275,9 @@ export function stack(filesystem, options) {
 
             case 'func': {
               this.memory[`FUNCTION[${args}]`] = new StackFile(
-                '# function: ' + args
+                '# function: ' + args,
+                fileinput.registryname,
+                fileinput.jscontext
               );
               for (++i; code[i] != 'end ' + args; i++)
                 this.memory[`FUNCTION[${args}]`].content += '\n' + code[i];
@@ -264,7 +303,9 @@ export function stack(filesystem, options) {
                   new StackFile('echo devsh: jscontext is blocked'),
                   stdin,
                   stdout,
-                  stdclear
+                  stdclear,
+                  isolated,
+                  javascript || fileinput.jscontext
                 );
               }
               break;
@@ -283,7 +324,9 @@ export function stack(filesystem, options) {
                     ),
                   stdin,
                   stdout,
-                  stdclear
+                  stdclear,
+                  isolated,
+                  javascript || fileinput.jscontext
                 );
               }
               break;
@@ -299,7 +342,9 @@ export function stack(filesystem, options) {
                     ),
                   stdin,
                   stdout,
-                  stdclear
+                  stdclear,
+                  isolated,
+                  javascript || fileinput.jscontext
                 );
               }
               break;
@@ -315,7 +360,9 @@ export function stack(filesystem, options) {
                     ),
                   stdin,
                   stdout,
-                  stdclear
+                  stdclear,
+                  isolated,
+                  javascript || fileinput.jscontext
                 );
               }
               break;
@@ -334,7 +381,9 @@ export function stack(filesystem, options) {
                     ),
                   stdin,
                   stdout,
-                  stdclear
+                  stdclear,
+                  isolated,
+                  javascript || fileinput.jscontext
                 );
               }
               break;
@@ -347,7 +396,9 @@ export function stack(filesystem, options) {
                   ),
                 stdin,
                 stdout,
-                stdclear
+                stdclear,
+                isolated,
+                javascript || fileinput.jscontext
               );
               break;
             }

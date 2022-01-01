@@ -131,7 +131,7 @@ onmessage = async function(e) {
               localStorage.setItem("fs", JSON.stringify(prompt))
               setTimeout(() => {
                 window.worker.postMessage(["fs"])
-              }, 10000)
+              }, 500)
             } else if(type==="clear") {
               stdclear()
             } else if(type==="out") {

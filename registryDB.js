@@ -36,23 +36,32 @@ write %{memread filename}
 end fileprompt
 
 func write-function
+echo appending...
 write %{memread filename} %{read %{memread filename}}\\n%{memread fileinput}
 end write-function
 
 func notexists-function
+echo first-writing a file.
 write %{memread filename} %{memread fileinput}
 end notexists-function
+
+func check
+if js_input should-write write-function
+if js_input should-notexists notexists-function
+edit
+end check
 
 func edit
 existsnot filename fileprompt
 prompt Enter a line to append (or "$$exit" to quit): 
 input fileinput
 jscontext js_input
-stack.filesystem[stack.memory["fileinput"]] ? "write" : "notexists"
+console.log(stack.memory["filename"])
+console.log(stack.filesystem)
+stack.filesystem[stack.memory["filename"].startsWith('/') ? stack.memory["filename"] : stack.path + stack.memory["filename"]] ? "write" : "notexists"
 end js_input
-if js_input should-write write-function
-if js_input should-notexists notexists-function
-ifnot fileinput exit-cmd edit
+
+ifnot fileinput exit-cmd check
 end edit`,
 
   'boot.st': `hex fc447b
