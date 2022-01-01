@@ -161,7 +161,7 @@ onmessage = async function(e) {
               }
             }
           }
-          window.worker.postMessage(["init", window.location.href + 'stack.js'])
+          window.worker.postMessage(["init", window.location.href + './stack.js'])
           await EmuVBE.sleep(100)
           window.worker.postMessage(["fs", JSON.parse(localStorage.getItem("fs"))])
           await EmuVBE.sleep(500)
