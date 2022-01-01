@@ -178,51 +178,6 @@ export function stack(filesystem, options) {
               if (this.filesystem[args])
                 this.filesystem.splice(this.filesystem.indexOf(args), 1);
             }
-            case 'cd': {
-              if (args) {
-                if (!args.startsWith('/')) args = path + args;
-                console.log(args);
-                if (args === '.') {
-                } else if (args === '..') {
-                  let modified = path.split('/');
-                  modified.pop();
-                  modified.pop();
-                  path = modified.join('/') + '/';
-                } else if (
-                  Object.keys(path.split('/')).filter((filename) =>
-                    filename.startsWith(args)
-                  ).length >= 1
-                ) {
-                  if (!args.endsWith('/')) args = args + '/';
-                  else if (args.startsWith('/')) path = args;
-                  else path += args;
-                } else {
-                  stdout('devsh: directory not found: ' + args);
-                }
-              } else {
-                path = '/';
-              }
-              break;
-            }
-            case 'ls': {
-              stdout('--------');
-              let wrote = [];
-              for (const filename of Object.keys(this.filesystem)) {
-                if (filename.split('/').length === path.split('/').length)
-                  wrote.push(filename);
-                else
-                  wrote.push(
-                    filename
-                      .split('/')
-                      .slice(0, path.split('/').length)
-                      .join('/') + '/'
-                  );
-              }
-              stdout(wrote.join('\n'));
-              stdout('--------');
-
-              break;
-            }
             case 'import': {
               if (!isolated) {
                 this.execute(
