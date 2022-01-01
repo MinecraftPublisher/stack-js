@@ -64,14 +64,14 @@ end js_input
 ifnot fileinput exit-cmd check
 end edit`,
 
-  'boot.st': `hex fc447b
+  'boot.st': `
+echo [MSG_BOOT_DROP_SYSTEM]
+hex fc447b
 echo StackOS
 sleep 800
 hex 3dff9e
 echo Loading devshell...
 sleep 500
-echo [MSG_BOOT_DROP_SYSTEM]
-sleep 2000
 hex
 module devsh`,
 

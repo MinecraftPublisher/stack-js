@@ -152,10 +152,6 @@ onmessage = async function(e) {
             if(type==="in") {
               window.worker.postMessage(await stdin(prompt))
             } else if(type==="fs") {
-              localStorage.setItem("fs", JSON.stringify(prompt))
-              setTimeout(() => {
-                window.worker.postMessage(["fs"])
-              }, 10000)
             } else if(type==="clear") {
               stdclear()
             } else if(type==="out") {
