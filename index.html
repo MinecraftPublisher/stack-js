@@ -174,8 +174,8 @@ onmessage = async function(e) {
 
 <!-- <textarea spellcheck="false" placeholder="Loading EmuVBE..." onkeydown="window.EmuVBE['input']( event )" name="terminal"></textarea> -->
 
-<div onclick="EmuVBE.element.focus()" id="textarea" spellcheck="false" aria-placeholder="Loading EmuVBE..." name="text"></div>
-<input autocomplete="off" spellcheck="false" placeholder="||" onkeydown="window.EmuVBE['input']( event )" onclick="EmuVBE.element.focus()" id="inputcursor"></input>
+<div onclick="window.location.href = './term.html'" id="textarea" spellcheck="false" aria-placeholder="Loading EmuVBE..." name="text"></div>
+<input readonly autocomplete="off" spellcheck="false" placeholder="||" onkeydown="window.EmuVBE['input']( event )" onclick="EmuVBE.element.focus()" id="inputcursor"></input>
 
     <style>
       @font-face {
@@ -233,7 +233,6 @@ onmessage = async function(e) {
         border-radius: 10px;
         padding: 15px;
         outline: none;
-        cursor: none;
       }
 
       textarea:focus {

@@ -21,6 +21,8 @@ end filename
 write js_filename js_filetext
 echo Done writing \${js_filename}`,
 
+  'edit.st': `# the default editor`
+
   'boot.st': `hex fc447b
 echo StackOS
 sleep 800
