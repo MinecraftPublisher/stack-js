@@ -71,7 +71,7 @@ export function stack(filesystem, options) {
   const system = {
     memory: {},
     filesystem: filesystem || {
-      '/boot.st': new StackFile('module boot.pd'),
+      '/boot.st': new StackFile('module boot'),
     },
     stdin: options?.stdin,
     stdout: options?.stdout,
@@ -163,7 +163,6 @@ export function stack(filesystem, options) {
             }
             case 'input': {
               this.memory[args] = await stdin(this.memory[`PROMPT[]`]);
-              console.log('output sent');
               break;
             }
             case 'sleep': {

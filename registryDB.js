@@ -24,45 +24,34 @@ echo Done writing \${js_filename}`,
   'edit.st': `# the default editor
 
 # prep
-memwrite exit-cmd $$exit
-memwrite should-write write
-memwrite should-notexists notexists
+memwrite edit-func-exit-cmd $$exit
+memwrite edit-func-should-write write
+memwrite edit-func-should-notexists notexists
 # prep
 
-func fileprompt
+func edit-func-fileprompt
 prompt Enter a file name to edit: 
-input filename
-write %{memread filename} 
-end fileprompt
+input edit-func-filename
+write %{memread edit-func-filename} 
+end edit-func-fileprompt
 
-func write-function
-echo appending...
-write %{memread filename} %{read %{memread filename}}\\n%{memread fileinput}
-end write-function
-
-func notexists-function
-echo first-writing a file.
-write %{memread filename} %{memread fileinput}
-end notexists-function
-
-func check
-sleep 100
-if js_input should-write write-function
-if js_input should-notexists notexists-function
+func edit-func-check
+jscontext edit-func-read_output
+this.filesystem[this.memory["edit-func-filename"].startsWith('/') ? this.memory["edit-func-filename"] : path + this.memory["edit-func-filename"]].content ? this.filesystem[this.memory["edit-func-filename"].startsWith('/') ? this.memory["edit-func-filename"] : path + this.memory["edit-func-filename"]].content + "\\n" : ""
+end edit-func-read_output
+write %{memread edit-func-filename} %{memread edit-func-read_output}%{memread edit-func-fileinput}
 edit
-end check
+end edit-func-check
 
 func edit
-existsnot filename fileprompt
+existsnot edit-func-filename edit-func-fileprompt
 prompt Enter a line to append (or "$$exit" to quit): 
-input fileinput
-jscontext js_input
-console.log(stack.memory["filename"])
-console.log(stack.filesystem)
-stack.filesystem[stack.memory["filename"].startsWith('/') ? stack.memory["filename"] : stack.path + stack.memory["filename"]] ? "write" : "notexists"
-end js_input
+input edit-func-fileinput
+jscontext edit-func-js_input
+stack.filesystem[stack.memory["edit-func-filename"].startsWith('/') ? stack.memory["edit-func-filename"] : stack.path + stack.memory["edit-func-filename"]] ? "write" : "notexists"
+end edit-func-js_input
 
-ifnot fileinput exit-cmd check
+ifnot edit-func-fileinput edit-func-exit-cmd edit-func-check
 end edit`,
 
   'boot.st': `
@@ -71,10 +60,13 @@ hex fc447b
 echo StackOS
 sleep 800
 hex 3dff9e
+module edit
+module devsh
+sleep 200
 echo Loading devshell...
 sleep 100
 hex
-module devsh`,
+devsh`,
 
   'devsh.st': `# devshell
 func devsh
@@ -82,9 +74,7 @@ prompt <span style="color: #ffbf49;">devsh <span style="color: #3debff;">%{memre
 input term-input
 run %{memread term-input}
 devsh
-end devsh
-
-devsh`,
+end devsh`,
 };
 
 export default registryDB;
