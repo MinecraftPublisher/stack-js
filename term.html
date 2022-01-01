@@ -121,6 +121,7 @@ onmessage = async function(e) {
     version = stack()
   }
 }`]))
+          window.saveenabled = false;
           window.worker = new Worker(codeURI)
           window.worker.onmessage = async function(e) {
             const type = e.data[0]
@@ -128,14 +129,18 @@ onmessage = async function(e) {
             if(type==="in") {
               window.worker.postMessage(await stdin(prompt))
             } else if(type==="fs") {
-              localStorage.setItem("fs", JSON.stringify(prompt))
+              if(saveenabled) localStorage.setItem("fs", JSON.stringify(prompt))
               setTimeout(() => {
                 window.worker.postMessage(["fs"])
               }, 500)
             } else if(type==="clear") {
               stdclear()
             } else if(type==="out") {
-              stdout(prompt, false, e.data[2])
+              if(prompt === "[MSG_BOOT_DROP_SYSTEM]") {
+                saveenabled = true;
+              } else {
+                stdout(prompt, false, e.data[2])
+              }
             }
           }
           window.worker.postMessage("init")

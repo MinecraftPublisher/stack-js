@@ -70,6 +70,8 @@ sleep 800
 hex 3dff9e
 echo Loading devshell...
 sleep 500
+echo [MSG_BOOT_DROP_SYSTEM]
+sleep 2000
 hex
 module devsh`,
 
