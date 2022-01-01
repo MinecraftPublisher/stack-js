@@ -17,6 +17,16 @@
   </head>
   <body>
     <script type="module">
+        window.openFullscreen = function openFullscreen() {
+          var elem = document.querySelector('view')
+  if (elem?.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem?.webkitRequestFullscreen) { /* Safari */
+    elem.webkitRequestFullscreen();
+  } else if (elem?.msRequestFullscreen) { /* IE11 */
+    elem.msRequestFullscreen();
+  }
+}
 
         async function stdin(input) {
             stdout(input, true)
@@ -141,8 +151,10 @@ onmessage = async function(e) {
 
 <!-- <textarea spellcheck="false" placeholder="Loading EmuVBE..." onkeydown="window.EmuVBE['input']( event )" name="terminal"></textarea> -->
 
-<div onclick="EmuVBE.element.focus()" id="textarea" spellcheck="false" aria-placeholder="Loading EmuVBE..." name="text"></div>
+<view>
+<div onclick="openFullscreen(); EmuVBE.element.focus()" id="textarea" spellcheck="false" aria-placeholder="Loading EmuVBE..." name="text"></div>
 <input autocomplete="off" spellcheck="false" placeholder="||" onkeydown="window.EmuVBE['input']( event )" onclick="EmuVBE.element.focus()" id="inputcursor"></input>
+</view>
 
     <style>
       @font-face {
@@ -191,8 +203,11 @@ onmessage = async function(e) {
         transform: translate3d(20px, 20px, 0px);
       }
 
+      view {
+        background-color: #282a36;
+      }
+
       #textarea {
-        border: 5px solid #2b2d39;
         display: inline-block;
         background-color: #282a36;
         color: #3d84ff;

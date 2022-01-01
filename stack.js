@@ -49,6 +49,24 @@ export const registry = registryDB;
 export let color = 'ff503d';
 export let path = '/';
 
+async function linify(input, model) {
+  var line = input;
+  for (var match of line.match(/%{[^%{}]+}/) || []) {
+    let output = '';
+    // run the code with a custom stdout
+    await model.execute(
+      new StackFile(match.slice(2, match.length - 1)),
+      stdin,
+      (string) => {
+        output += string;
+      }
+    );
+    line = line.replace(match, output);
+  }
+  if (line.match(/%{[^%{}]+}/)) return linify(line, model);
+  else return line;
+}
+
 export function stack(filesystem, options) {
   const system = {
     memory: {},
@@ -72,32 +90,7 @@ export function stack(filesystem, options) {
     ) {
       const code = fileinput.content.split('\n');
       for (var i = 0; i < code.length; i++) {
-        var line = code[i];
-        console.log(JSON.stringify(line));
-        for (var match of line.match(/%{[^%{}]+}/) || []) {
-          let output = '';
-          // run the code with a custom stdout
-          await this.execute(
-            new StackFile(match.slice(2, match.length - 1)),
-            stdin,
-            (string) => {
-              output += string;
-            }
-          );
-          line = line.replace(match, output);
-        }
-        for (var match of line.match(/\$\[[^\$\[\]]+\]/) || []) {
-          let output = '';
-          // run the code with a custom stdout
-          await this.execute(
-            new StackFile(match.slice(2, match.length - 1)),
-            stdin,
-            (string) => {
-              output += string;
-            }
-          );
-          line = line.replace(match, output);
-        }
+        var line = await linify(code[i], this);
         this.memory['path'] = path;
 
         const array = line.split(' ');
