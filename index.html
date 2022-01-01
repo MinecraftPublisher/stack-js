@@ -140,7 +140,7 @@ onmessage = async function(e) {
     // initiate
     console.log('webworker is running')
     runnable = true
-    stackjs = await import('https://stack-js.stackblitz.io/stack.js');
+    stackjs = await import(e.data[1]);
     stack = stackjs.default;
     version = stack()
   }
@@ -161,7 +161,7 @@ onmessage = async function(e) {
               }
             }
           }
-          window.worker.postMessage("init")
+          window.worker.postMessage(["init", window.location.href + 'stack.js'])
           await EmuVBE.sleep(100)
           window.worker.postMessage(["fs", JSON.parse(localStorage.getItem("fs"))])
           await EmuVBE.sleep(500)

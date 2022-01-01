@@ -115,7 +115,7 @@ onmessage = async function(e) {
     // initiate
     console.log('webworker is running')
     runnable = true
-    stackjs = await import('https://stack-js.stackblitz.io/stack.js');
+    stackjs = await import(e.data[1]);
     stack = stackjs.default;
     version = stack(undefined, {
       stdin: stdin,
@@ -146,7 +146,7 @@ onmessage = async function(e) {
               }
             }
           }
-          window.worker.postMessage("init")
+          window.worker.postMessage(["init", window.location.href + 'stack.js'])
           await EmuVBE.sleep(100)
           window.worker.postMessage(["fs", JSON.parse(localStorage.getItem("fs"))])
           await EmuVBE.sleep(500)
@@ -160,8 +160,12 @@ onmessage = async function(e) {
 <!-- <textarea spellcheck="false" placeholder="Loading EmuVBE..." onkeydown="window.EmuVBE['input']( event )" name="terminal"></textarea> -->
 
 <view>
-<div onclick="// openFullscreen();
-EmuVBE.element.focus()" id="textarea" spellcheck="false" aria-placeholder="Loading EmuVBE..." name="text"></div>
+<div onclick="
+
+openFullscreen();
+EmuVBE.element.focus()
+
+" id="textarea" spellcheck="false" aria-placeholder="Loading EmuVBE..." name="text"></div>
 <input autocomplete="off" spellcheck="false" placeholder="||" onkeydown="window.EmuVBE['input']( event )" onclick="EmuVBE.element.focus()" id="inputcursor"></input>
 </view>
 
@@ -192,7 +196,7 @@ EmuVBE.element.focus()" id="textarea" spellcheck="false" aria-placeholder="Loadi
       }
 
       view {
-        cursor: none;
+        cursor-: none;
       }
 
       #textarea::after {
@@ -230,12 +234,10 @@ EmuVBE.element.focus()" id="textarea" spellcheck="false" aria-placeholder="Loadi
         margin: auto;
         padding: 15px;
         outline: none;
-        cursor: none;
       }
 
       textarea:focus {
             outline: none;
-            cursor: none;
             box-shadow: none;
       }
 
