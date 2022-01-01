@@ -30,8 +30,7 @@
 
         async function stdin(input) {
             stdout(input, true)
-            EmuVBE["element"].removeAttribute('readonly');
-            while (true) { await EmuVBE["sleep"](100); if (EmuVBE["input_queue"][EmuVBE["input_queue"].length - 1] == "Enter") { EmuVBE["input_queue"].pop(); let data = EmuVBE["input_queue"].join(""); EmuVBE["input_queue"] = []; EmuVBE["element"].setAttribute('readonly'); return data; } }
+            while (true) { await EmuVBE["sleep"](100); if (EmuVBE["input_queue"][EmuVBE["input_queue"].length - 1] == "Enter") { EmuVBE["input_queue"].pop(); let data = EmuVBE["input_queue"].join(""); EmuVBE["input_queue"] = []; return data; } }
         }
         function stdout(output, line, color) {
             EmuVBE["log"](`<span style="color: #${color ? color : "3d84ff"};">${output}</span>` + (!line ? "<br>": ""))
@@ -48,7 +47,6 @@
             "input_enabled": false,
             "input": async function (e) {
                 let key = e.key
-                if (!window.EmuVBE["input_enabled"]) e.preventDefault()
                 if (["Alt","Control","Shift","CapsLock","Tab","Meta","ArrowLeft","ArrowUp","ArrowRight","ArrowDown","Shift", "Backspace", "Dead"].indexOf(key) === -1) { document.querySelector("#textarea").innerHTML += key === "Enter" ? "<br>" : key; window.EmuVBE["input_queue"].push(key); } 
                 if(key === "Backspace") { if(document.querySelector("#textarea").innerHTML.split("")[document.querySelector("#textarea").innerHTML.split("").length-1] !== (window.EmuVBE["input_queue"][window.EmuVBE["input_queue"].length - 1] || "")) { e.preventDefault(); } else { 
 let thing = document.querySelector("#textarea").innerHTML.split('');thing.pop();document.querySelector("#textarea").innerHTML = thing.join(''); window.EmuVBE["input_queue"].pop(); } }
@@ -164,7 +162,7 @@ onmessage = async function(e) {
 <view>
 <div onclick="// openFullscreen();
 EmuVBE.element.focus()" id="textarea" spellcheck="false" aria-placeholder="Loading EmuVBE..." name="text"></div>
-<input readonly autocomplete="off" spellcheck="false" placeholder="||" onkeydown="window.EmuVBE['input']( event )" onclick="EmuVBE.element.focus()" id="inputcursor"></input>
+<input autocomplete="off" spellcheck="false" placeholder="||" onkeydown="window.EmuVBE['input']( event )" onclick="EmuVBE.element.focus()" id="inputcursor"></input>
 </view>
 
     <style>

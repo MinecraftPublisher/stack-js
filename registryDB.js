@@ -72,7 +72,7 @@ echo StackOS
 sleep 800
 hex 3dff9e
 echo Loading devshell...
-sleep 500
+sleep 100
 hex
 module devsh`,
 
