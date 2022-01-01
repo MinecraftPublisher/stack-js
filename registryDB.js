@@ -35,7 +35,6 @@ end fileprompt
 
 func edit
 existsnot filename fileprompt
-existsnot filename 
 write %{memread filename} %{read %{memread filename}}\\n%{memread fileinput}
 prompt Enter a line to append (or "$$exit" to quit): 
 ifnot fileinput exit-cmd edit
