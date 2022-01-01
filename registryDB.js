@@ -25,6 +25,8 @@ echo Done writing \${js_filename}`,
 
 # prep
 memwrite exit-cmd $$exit
+memwrite should-write write
+memwrite should-notexists notexists
 # prep
 
 func fileprompt
@@ -33,10 +35,23 @@ input filename
 write %{memread filename} 
 end fileprompt
 
+func write-function
+write %{memread filename} %{read %{memread filename}}\\n%{memread fileinput}
+end write-function
+
+func notexists-function
+write %{memread filename} %{memread fileinput}
+end notexists-function
+
 func edit
 existsnot filename fileprompt
-write %{memread filename} %{read %{memread filename}}\\n%{memread fileinput}
 prompt Enter a line to append (or "$$exit" to quit): 
+input fileinput
+jscontext js_input
+stack.filesystem[stack.memory["fileinput"]] ? "write" : "notexists"
+end js_input
+if js_input should-write write-function
+if js_input should-notexists notexists-function
 ifnot fileinput exit-cmd edit
 end edit`,
 
