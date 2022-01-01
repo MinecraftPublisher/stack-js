@@ -34,17 +34,22 @@ end quit
 func fileprompt
 prompt Enter a file name to edit (or "$$exit" to quit): 
 input filename
+write %{memread filename}
 if fileinput exit-cmd quit 
 end fileprompt
 
 func save
+echo thing: %{memread fileinput}
+write %{echo %{memread filename}} %{echo %{read %{memread filename}}}\\n%{memread fileinput}
 end save
 
 func edit
 existsnot filename fileprompt
-prompt Enter a line to append (or "$$exit" to quit):
+prompt Enter a line to append (or "$$exit" to quit): 
 input fileinput
 if fileinput exit-cmd quit
+ifnot fileinput exit-cmd save
+ifnot fileinput exit-cmd edit
 end edit`,
 
   'boot.st': `hex fc447b
