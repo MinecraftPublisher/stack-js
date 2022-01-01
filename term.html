@@ -30,8 +30,8 @@
 
         async function stdin(input) {
             stdout(input, true)
-            EmuVBE["input_enabled"] = true;
-            while (true) { await EmuVBE["sleep"](100); if (EmuVBE["input_queue"][EmuVBE["input_queue"].length - 1] == "Enter") { EmuVBE["input_queue"].pop(); let data = EmuVBE["input_queue"].join(""); EmuVBE["input_queue"] = []; EmuVBE["input_enabled"] = false; return data; } }
+            EmuVBE["element"].removeAttribute('readonly');
+            while (true) { await EmuVBE["sleep"](100); if (EmuVBE["input_queue"][EmuVBE["input_queue"].length - 1] == "Enter") { EmuVBE["input_queue"].pop(); let data = EmuVBE["input_queue"].join(""); EmuVBE["input_queue"] = []; EmuVBE["element"].setAttribute('readonly'); return data; } }
         }
         function stdout(output, line, color) {
             EmuVBE["log"](`<span style="color: #${color ? color : "3d84ff"};">${output}</span>` + (!line ? "<br>": ""))
@@ -48,10 +48,10 @@
             "input_enabled": false,
             "input": async function (e) {
                 let key = e.key
+                if (!window.EmuVBE["input_enabled"]) e.preventDefault()
                 if (["Alt","Control","Shift","CapsLock","Tab","Meta","ArrowLeft","ArrowUp","ArrowRight","ArrowDown","Shift", "Backspace", "Dead"].indexOf(key) === -1) { document.querySelector("#textarea").innerHTML += key === "Enter" ? "<br>" : key; window.EmuVBE["input_queue"].push(key); } 
                 if(key === "Backspace") { if(document.querySelector("#textarea").innerHTML.split("")[document.querySelector("#textarea").innerHTML.split("").length-1] !== (window.EmuVBE["input_queue"][window.EmuVBE["input_queue"].length - 1] || "")) { e.preventDefault(); } else { 
 let thing = document.querySelector("#textarea").innerHTML.split('');thing.pop();document.querySelector("#textarea").innerHTML = thing.join(''); window.EmuVBE["input_queue"].pop(); } }
-                if (!window.EmuVBE["input_enabled"]) e.preventDefault()
             },
             "log": function (input) {
               document.querySelector("#textarea").innerHTML += input.split('\n').join('<br>')
@@ -61,8 +61,9 @@ let thing = document.querySelector("#textarea").innerHTML.split('');thing.pop();
             },
             "sleep": async (miliseconds) => new Promise(resolve => setTimeout(resolve, miliseconds)),
             "setup": () => {
-              // EmuVBE.element.focus()
+            EmuVBE["element"].setAttribute('readonly', '');
               setInterval(() => {
+                EmuVBE.element.focus()
                     EmuVBE.element.scrollTo(0, document.body.scrollHeight);
                     // EmuVBE.element.setSelectionRange(EmuVBE.element.innerHTML.length, EmuVBE.element.innerHTML.length);
                 }, 100)
@@ -83,7 +84,7 @@ const sleep = (milliseconds) => {
   return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
 
-async function stdin(input, confirm = true) {
+this.stdin = async function stdin(input, confirm = true) {
       confirm && postMessage(["in", input])
       if(!resultRecieved) {
         await sleep(100)
@@ -96,11 +97,11 @@ async function stdin(input, confirm = true) {
       }
 };
 
-function stdclear() {
+this.stdclear = function stdclear() {
   postMessage(["clear"])
 }
 
-async function stdout(input) { postMessage(["out", input, stackjs.color]) };
+this.stdout = async function stdout(input) { postMessage(["out", input, stackjs.color]) };
 
 onmessage = async function(e) {
   if (e.data[0] == "execute") {
@@ -118,7 +119,11 @@ onmessage = async function(e) {
     runnable = true
     stackjs = await import('https://stack-js.stackblitz.io/stack.js');
     stack = stackjs.default;
-    version = stack()
+    version = stack(undefined, {
+      stdin: stdin,
+      stdout: stdout,
+      stdclear: stdclear
+    })
   }
 }`]))
           window.saveenabled = false;
@@ -159,7 +164,7 @@ onmessage = async function(e) {
 <view>
 <div onclick="// openFullscreen();
 EmuVBE.element.focus()" id="textarea" spellcheck="false" aria-placeholder="Loading EmuVBE..." name="text"></div>
-<input autocomplete="off" spellcheck="false" placeholder="||" onkeydown="window.EmuVBE['input']( event )" onclick="EmuVBE.element.focus()" id="inputcursor"></input>
+<input readonly autocomplete="off" spellcheck="false" placeholder="||" onkeydown="window.EmuVBE['input']( event )" onclick="EmuVBE.element.focus()" id="inputcursor"></input>
 </view>
 
     <style>

@@ -46,6 +46,7 @@ write %{memread filename} %{memread fileinput}
 end notexists-function
 
 func check
+sleep 100
 if js_input should-write write-function
 if js_input should-notexists notexists-function
 edit

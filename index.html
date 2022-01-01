@@ -155,7 +155,10 @@ onmessage = async function(e) {
             } else if(type==="clear") {
               stdclear()
             } else if(type==="out") {
-              stdout(prompt, false, e.data[2])
+              if(prompt === "[MSG_BOOT_DROP_SYSTEM]") {
+              } else {
+                stdout(prompt, false, e.data[2])
+              }
             }
           }
           window.worker.postMessage("init")

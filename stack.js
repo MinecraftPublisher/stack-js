@@ -71,8 +71,11 @@ export function stack(filesystem, options) {
   const system = {
     memory: {},
     filesystem: filesystem || {
-      '/boot.st': new StackFile(registry['boot.st'], 'boot', true),
+      '/boot.st': new StackFile('module boot.pd'),
     },
+    stdin: options?.stdin,
+    stdout: options?.stdout,
+    stdclear: options?.stdclear,
     /**
      * Executes a StackScript, And allows javascript context if the file matches the registry.
      *
@@ -82,13 +85,12 @@ export function stack(filesystem, options) {
      */
     execute: async function (
       fileinput,
-      stdin = prompt,
-      stdout = window.EmuVBE,
-      stdclear = function () {},
+      stdin = this.stdin || prompt,
+      stdout = this.stdout || console.log,
+      stdclear = this.stdclear || function () {},
       isolated = options?.isolated,
       javascript = options?.javascript
     ) {
-      let running = true;
       const code = fileinput.content.split('\n');
       for (var i = 0; i < code.length; i++) {
         var line = await linify(code[i], this);
@@ -194,6 +196,7 @@ export function stack(filesystem, options) {
             case 'rm': {
               if (!args.startsWith('/')) args = '/' + args;
               if (this.filesystem[args]) this.filesystem[args] = undefined;
+              break;
             }
             case 'import': {
               if (!isolated) {
