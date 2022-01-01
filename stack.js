@@ -88,6 +88,7 @@ export function stack(filesystem, options) {
       isolated = options?.isolated,
       javascript = options?.javascript
     ) {
+      let running = true;
       const code = fileinput.content.split('\n');
       for (var i = 0; i < code.length; i++) {
         var line = await linify(code[i], this);
