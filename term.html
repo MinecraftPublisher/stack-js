@@ -1,0 +1,322 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>DevShell</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"
+    />
+    <link
+      rel="shortcut icon"
+      href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAmlJREFUeF7tmb9OAkEQxqEwsUAtjJAQS1/gbOx5B2OtDQ9ApQ+gFQ9Ag7XxHehtvBewNCRgLFQKEwuNhj3d9ea+m/0DBzuU7N7++c33zcxBvRb5px75/WsCQBSwJALJ7fXn363T49OlqHEpm35fPBoA5kW5ggutjOAKEACG10UBTAIrYwEk9fRpwrp6stcqnO8LjLccEB0A3xdG8gilCGsFRANg0RdFSjDHXZUBFSAAQB3nZnduhNF8UYBjucwsUHWpIyXY5gYBULu60N7LM5I721zo1Z7/8pp7vroAUFwoJajxVVMEEfFMBueXP/b/7QMEAJELRAFzAmtvASqHV90aJb1OXQ++C5BVoirW8AUguXvI7wcIdOloWFz3fVsGXDTpnLH6kPToQK8C8QK4GeVHfrepEU22Not/o/OtCMeIp2/v+nmfp0QnKABEAZFbQDmDsoIaN3KC+to5N4DcjbL7P6+r9QjPZ9uddIx3gegBUJFYEJjQkbbvBGMBMO33WZ1gcz8pdi+zjzAXK1vH1XPTx5TVCTZ7PT0HCABRQKQWuO92c73fajQ0T22024Ue4+YEaFhQx5HnP8ZjbYvJbJb/LhA9AIWFAqHGTUWo752VAaTAjbRajoq4Gj8cDPQqED0AKhCLAhM60tadoAAgqoTv3CAKAK2sWda4yc7aAr5yA6oW5j5l67iZ1WF/YUzA/wsQK3Jzw9oBMLlwgaBIla3jaB00bq0AAYDQzseRMtAyqmND82zHvSnANlmigwuAec+OQNmOiwJsybk+Z+aG0FL33ggJAFcCFXk+eA6oyD3JYwiAqkco9Pm+AKquxx4elLXnAAAAAElFTkSuQmCC"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAmlJREFUeF7tmb9OAkEQxqEwsUAtjJAQS1/gbOx5B2OtDQ9ApQ+gFQ9Ag7XxHehtvBewNCRgLFQKEwuNhj3d9ea+m/0DBzuU7N7++c33zcxBvRb5px75/WsCQBSwJALJ7fXn363T49OlqHEpm35fPBoA5kW5ggutjOAKEACG10UBTAIrYwEk9fRpwrp6stcqnO8LjLccEB0A3xdG8gilCGsFRANg0RdFSjDHXZUBFSAAQB3nZnduhNF8UYBjucwsUHWpIyXY5gYBULu60N7LM5I721zo1Z7/8pp7vroAUFwoJajxVVMEEfFMBueXP/b/7QMEAJELRAFzAmtvASqHV90aJb1OXQ++C5BVoirW8AUguXvI7wcIdOloWFz3fVsGXDTpnLH6kPToQK8C8QK4GeVHfrepEU22Not/o/OtCMeIp2/v+nmfp0QnKABEAZFbQDmDsoIaN3KC+to5N4DcjbL7P6+r9QjPZ9uddIx3gegBUJFYEJjQkbbvBGMBMO33WZ1gcz8pdi+zjzAXK1vH1XPTx5TVCTZ7PT0HCABRQKQWuO92c73fajQ0T22024Ue4+YEaFhQx5HnP8ZjbYvJbJb/LhA9AIWFAqHGTUWo752VAaTAjbRajoq4Gj8cDPQqED0AKhCLAhM60tadoAAgqoTv3CAKAK2sWda4yc7aAr5yA6oW5j5l67iZ1WF/YUzA/wsQK3Jzw9oBMLlwgaBIla3jaB00bq0AAYDQzseRMtAyqmND82zHvSnANlmigwuAec+OQNmOiwJsybk+Z+aG0FL33ggJAFcCFXk+eA6oyD3JYwiAqkco9Pm+AKquxx4elLXnAAAAAElFTkSuQmCC"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <img
+      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAj5JREFUeF7tmjFOAzEQRTcFEkWAApFIESUXMA197oCoockBUsEBoMoB0oQacYf0NPgClChSFlEAKZAoQEFYwsPaM157bbHjdLv22pn3/4xno3QK5p8O8/iLDCA7gDmBnALMDZCLYE6BnALMCeQUSGUAcXv9+XtveXyaRIwkm64DZwcABow5L5YjojmAHQBTwPJpaRVf7PUrx5tyRGMOYAegbsBYLWjaEcEcwA5AUwHHdkRtB7ADkCrgph1BdgBfAFcXWs9e7GxjoqQdf3nV9z+/tIqMO4A9AMUTglD3UzsCKq6+F6K8moY7IAMwpHQqR3gqDqOhOwA+yQ2AuHvQTwMARM5n1VbxrREGxcXwzHrayKMDkrikSd+/4LAFcDPXld/taeTF1mb1+3tdRzgqLt/e9f2fS/36ZOjZB7AHoHhCEOq+ryMMmWzKcVRxtR6ivHsfwB4AVCowkFiKh+sDuAEoJxNrH9DbF9XZTKwR6mFqjpeP0toH9MZj0hFPmrTeiS2A+9FIU77f7WrkNwaDSiWojvjzMDzHfyaYFP9YLLQllquVdn04nfr1AewBKJwQhLrv7QhDJtdVXC2HKe/cB7AHAIUKDSSW4sH6APYAQjtCrYdVddcctzYLRRHuf4K+jvj3AOo6Aj4Hz/HQigerAZi1qI5oLQCqI0wgqec4JgQ2Tn4XwBbCxk2OYAMAc0QsxaPVAFdHsAOAAYo1Hq0GxArIdZ8MwJVY2+ZnB7RNUdd4sgNcibVtfnZA2xR1jecLzEVaUE2Ss1IAAAAASUVORK5CYII="
+      height="40"
+      width="100"
+    />
+    <h1>StackJS</h1>
+    <p>Runs a little operating system in your browser.</p>
+
+    <p>
+      Features & Limitations:
+    <ul>
+      <li>Runs devshell, A dedicated shell.</li>
+      <li>Uses filesystems provided by the user.</li>
+      <li>
+        Implements the StackDev language which is a bash-like scripting
+        language.
+      </li>
+      <li>
+        Has the ability to run Javascript in non-isolated contexts, if allowed.
+      </li>
+      <li>
+        Cannot provide packages from other operating systems, But has a static
+        package registry.
+      </li>
+      <li>Implements the ".st" extension for script files.</li>
+      <li>Trusted packages can run Javascript without permission.</li>
+      <li>And a lot more to come...</li>
+    </ul>
+    </p>
+
+    <p>
+      Want a demo? What's down here? Is it a shell? 🐚
+    </p>
+
+    <script type="module">
+
+        async function stdin(input) {
+            stdout(input, true)
+            EmuVBE["input_enabled"] = true;
+            while (true) { await EmuVBE["sleep"](100); if (EmuVBE["input_queue"][EmuVBE["input_queue"].length - 1] == "Enter") { EmuVBE["input_queue"].pop(); let data = EmuVBE["input_queue"].join(""); EmuVBE["input_queue"] = []; EmuVBE["input_enabled"] = false; return data; } }
+        }
+        function stdout(output, line, color) {
+            EmuVBE["log"](`<span style="color: #${color ? color : "3d84ff"};">${output}</span>` + (!line ? "<br>": ""))
+            // EmuVBE["log"](output)
+        }
+        function stdclear() {
+            EmuVBE["element"].value = ""
+            document.querySelector("#textarea").innerHTML = ""
+        }
+
+        window.EmuVBE = {
+            "element": document.querySelector("#inputcursor"),
+            "input_queue": [],
+            "input_enabled": false,
+            "input": async function (e) {
+                let key = e.key
+                if (["Alt","Control","Shift","CapsLock","Tab","Meta","ArrowLeft","ArrowUp","ArrowRight","ArrowDown","Shift", "Backspace", "Dead"].indexOf(key) === -1) { document.querySelector("#textarea").innerHTML += key === "Enter" ? "<br>" : key; window.EmuVBE["input_queue"].push(key); } 
+                if(key === "Backspace") { if(document.querySelector("#textarea").innerHTML.split("")[document.querySelector("#textarea").innerHTML.split("").length-1] !== (window.EmuVBE["input_queue"][window.EmuVBE["input_queue"].length - 1] || "")) { e.preventDefault(); } else { 
+let thing = document.querySelector("#textarea").innerHTML.split('');thing.pop();document.querySelector("#textarea").innerHTML = thing.join(''); window.EmuVBE["input_queue"].pop(); } }
+                if (!window.EmuVBE["input_enabled"]) e.preventDefault()
+            },
+            "log": function (input) {
+              document.querySelector("#textarea").innerHTML += input.split('\n').join('<br>')
+            },
+            "log_line": function (input) {
+                window.EmuVBE["log"](input + "\n")
+            },
+            "sleep": async (miliseconds) => new Promise(resolve => setTimeout(resolve, miliseconds)),
+            "setup": () => {
+              // EmuVBE.element.focus()
+              setInterval(() => {
+                    EmuVBE.element.scrollTo(0, document.body.scrollHeight);
+                    // EmuVBE.element.setSelectionRange(EmuVBE.element.innerHTML.length, EmuVBE.element.innerHTML.length);
+                }, 100)
+            }
+        }
+        window.EmuVBE.setup()
+        window.onload = async () => {
+          if (window.Worker) {
+          const codeURI = URL.createObjectURL(new Blob([`
+let runnable = false
+let resultRecieved = false
+let result = ""
+
+let stackjs;
+let version;
+
+const sleep = (milliseconds) => {
+  return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
+
+async function stdin(input, confirm = true) {
+      confirm && postMessage(["in", input])
+      if(!resultRecieved) {
+        await sleep(100)
+        return await stdin(input, false)
+      } else {
+        resultRecieved = false
+        let res = result
+        result = ""
+        return res
+      }
+};
+
+function stdclear() {
+  postMessage(["clear"])
+}
+
+async function stdout(input) { postMessage(["out", input, stackjs.color]) };
+
+onmessage = async function(e) {
+  if (e.data[0] == "execute") {
+    version.execute(new stackjs.StackFile(e.data[1]), stdin, stdout, stdclear)
+  } else if (e.data[0] == "fs") {
+    postMessage(["fs", version.filesystem])
+    if(e.data[1]) version.filesystem = e.data[1]
+  } else if(runnable) {
+    // check for stdin result
+    resultRecieved = true
+    result = e.data
+  } else {
+    // initiate
+    console.log('webworker is running')
+    runnable = true
+    stackjs = await import('https://stack-js.stackblitz.io/stack.js');
+    stack = stackjs.default;
+    version = stack()
+  }
+}`]))
+          window.worker = new Worker(codeURI)
+          window.worker.onmessage = async function(e) {
+            const type = e.data[0]
+            const prompt = e.data[1]
+            if(type==="in") {
+              window.worker.postMessage(await stdin(prompt))
+            } else if(type==="fs") {
+              localStorage.setItem("fs", JSON.stringify(prompt))
+              setTimeout(() => {
+                window.worker.postMessage(["fs"])
+              }, 10000)
+            } else if(type==="clear") {
+              stdclear()
+            } else if(type==="out") {
+              stdout(prompt, false, e.data[2])
+            }
+          }
+          window.worker.postMessage("init")
+          await EmuVBE.sleep(100)
+          window.worker.postMessage(["fs", JSON.parse(localStorage.getItem("fs"))])
+          await EmuVBE.sleep(500)
+          window.worker.postMessage(["execute", 'import boot.st'])
+        } else {
+          window.EmuVBE.log("devsh: browser is not compatible with web workers")
+        }
+        }
+    </script>
+
+<!-- <textarea spellcheck="false" placeholder="Loading EmuVBE..." onkeydown="window.EmuVBE['input']( event )" name="terminal"></textarea> -->
+
+<div onclick="EmuVBE.element.focus()" id="textarea" spellcheck="false" aria-placeholder="Loading EmuVBE..." name="text"></div>
+<input autocomplete="off" spellcheck="false" placeholder="||" onkeydown="window.EmuVBE['input']( event )" onclick="EmuVBE.element.focus()" id="inputcursor"></input>
+
+    <style>
+      @font-face {
+        font-family: 'Cascadia Code';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Cascadia Code'), url('https://fonts.cdnfonts.com/s/29131/Cascadia.woff')    format('woff');
+      }
+
+      body {
+        animation-: 7s reveal;
+        background-color: #333;
+        color: #F8F8F8;
+        font-family: 'Cascadia Code', Menlo, monospace;
+      }
+
+      input {
+        width: 2px;
+        height: 5px;
+        opacity: 0;
+        display: inline;
+        background-color: black; 
+        color: black;
+      }
+
+      #textarea::after {
+        content: "|";
+        background-color: #adffff;
+        color: #adffff;
+        animation: 2s cursor-blink infinite;
+      }
+
+      @keyframes cursor-blink {
+        from {
+          opacity: 0%;
+        } 50% {
+          opacity: 100%;
+        } to {
+          opacity: 0%;
+        }
+      }
+
+      input {
+        transform: translate3d(20px, 20px, 0px);
+      }
+
+      #textarea {
+        border: 5px solid #2b2d39;
+        display: inline-block;
+        background-color: #282a36;
+        color: #3d84ff;
+        min-height: 14rem;
+        width: 90%;
+        margin: auto;
+        border-radius: 10px;
+        padding: 15px;
+        outline: none;
+        cursor: none;
+      }
+
+      textarea:focus {
+            outline: none;
+            cursor: none;
+            box-shadow: none;
+      }
+
+      textarea::-webkit-scrollbar {
+        display: none;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      p,
+      li {
+        animation-: 7s closed-reveal;
+        color: #F8F8F8;
+      }
+
+      img {
+        animation-: 7s img-reveal;
+      }
+
+      @keyframes closed-reveal {
+        from {
+          color: black;
+        }
+        80% {
+          color: white;
+        }
+        90% {
+          color: black;
+        }
+        to {
+          color: #F8F8F8;
+        }
+      }
+
+      @keyframes img-reveal {
+        from {
+          opacity: 0%;
+        } 80% {
+          opacity: 0%;
+        } 90% {
+          opacity: 100%;
+        } to {
+          opacity: 100%;
+        }
+      }
+
+      @keyframes reveal {
+        from {
+          opacity: 0%;
+          background-color: white;
+        }
+        10% {
+          background-color: #ff7a7a;
+        }
+        30% {
+          opacity: 0%;
+        }
+        80% {
+          background-color: #ff4949;
+        }
+        85% {
+          background-color: black;
+        }
+        to {
+          opacity: 100%;
+          color: #F8F8F8;
+          background-color: #333;
+        }
+      }
+    </style>
+  </body>
+</html>
