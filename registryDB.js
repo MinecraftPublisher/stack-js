@@ -21,7 +21,31 @@ end filename
 write js_filename js_filetext
 echo Done writing \${js_filename}`,
 
-  'edit.st': `# the default editor`
+  'edit.st': `# the default editor
+
+# prep
+memwrite exit-cmd $$exit
+# prep
+
+func quit
+exit
+end quit
+
+func fileprompt
+prompt Enter a file name to edit (or "$$exit" to quit): 
+input filename
+if fileinput exit-cmd quit 
+end fileprompt
+
+func save
+end save
+
+func edit
+existsnot filename fileprompt
+prompt Enter a line to append (or "$$exit" to quit):
+input fileinput
+if fileinput exit-cmd quit
+end edit`,
 
   'boot.st': `hex fc447b
 echo StackOS
