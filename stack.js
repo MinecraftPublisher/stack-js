@@ -193,8 +193,7 @@ export function stack(filesystem, options) {
             }
             case 'rm': {
               if (!args.startsWith('/')) args = '/' + args;
-              if (this.filesystem[args])
-                this.filesystem.splice(this.filesystem.indexOf(args), 1);
+              if (this.filesystem[args]) this.filesystem[args] = undefined;
             }
             case 'import': {
               if (!isolated) {
