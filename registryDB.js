@@ -1,7 +1,6 @@
 export const registryDB = {
   'default.st': `// an empty StackScript program.
 echo empty`,
-
   'wget.st': `accepts url
 // devshell implementation of wget using javascript
 // only downloads text
@@ -20,7 +19,6 @@ end filename
 
 write js_filename js_filetext
 echo Done writing \${js_filename}`,
-
   'edit.st': `# the default editor
 
 # prep
@@ -53,7 +51,6 @@ end edit-func-js_input
 
 ifnot edit-func-fileinput edit-func-exit-cmd edit-func-check
 end edit`,
-
   'boot.st': `
 echo [MSG_BOOT_DROP_SYSTEM]
 hex fc447b
@@ -67,7 +64,6 @@ echo Loading devshell...
 sleep 100
 hex
 devsh`,
-
   'devsh.st': `# devshell
 func devsh
 prompt <span style="color: #ffbf49;">devsh <span style="color: #3debff;">%{memread path}</span></span><span style="color: #ff4949;"> ❯ </span>
@@ -76,5 +72,4 @@ run %{memread term-input}
 devsh
 end devsh`,
 };
-
 export default registryDB;

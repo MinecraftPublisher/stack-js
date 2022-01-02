@@ -3,8 +3,7 @@
  * Create a small, Nearly functioning operating system in the web.
  * A filesystem needs to be provided to the system, Otherwise it will not function.
  */
-import registryDB from './registryDB.js';
-
+import registryDB from '/registryDB.js';
 /**
  * @typedef {Object} StackFile
  * @property {string} content - The file content.
@@ -27,13 +26,10 @@ export function StackFile(filetext, registryname, jscontext) {
     return {};
   }
 }
-
 export const sleep = (ms) => {
   for (const past_timestamp = Date.now() + ms; Date.now() !== past_timestamp; );
 };
-
 export const registry = registryDB;
-
 /**
  * Make a new StackJS instance.
  *
@@ -45,10 +41,8 @@ export const registry = registryDB;
  * @param {object} filesystem - A StackOS filesystem.
  * @param {object} options - Provide various options for the StackOS instance.
  */
-
 export let color = 'ff503d';
 export let path = '/';
-
 async function linify(input, model) {
   var line = input;
   for (var match of line.match(/%{[^%{}]+}/) || []) {
@@ -66,7 +60,6 @@ async function linify(input, model) {
   if (line.match(/%{[^%{}]+}/)) return linify(line, model);
   else return line;
 }
-
 export function stack(filesystem, options) {
   const system = {
     memory: {},
@@ -95,11 +88,9 @@ export function stack(filesystem, options) {
       for (var i = 0; i < code.length; i++) {
         var line = await linify(code[i], this);
         this.memory['path'] = path;
-
         const array = line.split(' ');
         let command = array[0];
         let args = array.slice(1).join(' ');
-
         if (
           line != '' &&
           line != ' ' &&
@@ -173,7 +164,6 @@ export function stack(filesystem, options) {
               i = code.length + 100000;
               break;
             }
-
             /* filesystem-related commands */
             case 'read': {
               stdout(
@@ -273,7 +263,6 @@ export function stack(filesystem, options) {
               break;
             }
             /* filesystem-related commands */
-
             case 'func': {
               this.memory[`FUNCTION[${args}]`] = new StackFile(
                 '# function: ' + args,
@@ -408,8 +397,6 @@ export function stack(filesystem, options) {
       }
     },
   };
-
   return system;
 }
-
 export default stack;
