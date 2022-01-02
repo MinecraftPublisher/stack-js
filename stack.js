@@ -184,7 +184,9 @@ export function stack(filesystem, options) {
             case "read": {
               stdout(
                 this.filesystem[args.startsWith("/") ? args : path + args]
-                  ?.content || "devsh: couldn't find file " + args
+                  ?.content || "devsh: couldn't find file " + args,
+                color,
+                true
               );
               break;
             }

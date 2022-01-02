@@ -13,6 +13,8 @@ func edit-func-fileprompt
 prompt Enter a file name to edit: 
 input edit-func-filename
 write %{memread edit-func-filename} 
+hex fff
+typewriter 10 Got it! If you want to close the program, Please type "$$exit" and press enter to close at any time.
 end edit-func-fileprompt
 
 func edit-func-check
@@ -25,7 +27,8 @@ end edit-func-check
 
 func edit
 existsnot edit-func-filename edit-func-fileprompt
-prompt Enter a line to append (or "$$exit" to quit): 
+hex fff
+prompt ..  
 input edit-func-fileinput
 jscontext edit-func-js_input
 stack.filesystem[stack.memory["edit-func-filename"].startsWith('/') ? stack.memory["edit-func-filename"] : stack.path + stack.memory["edit-func-filename"]] ? "write" : "notexists"
@@ -36,15 +39,16 @@ end edit`,
   "boot.st": `
 echo [MSG_BOOT_DROP_SYSTEM]
 hex fc447b
-typewriter 80 StackOS
+typewriter 60 StackOS
+sleep 200
 hex 54fff3
-typewriter 50 Instant boot customizable operating system on the fly.
+typewriter 50 Instant boot operating system
 sleep 800
 hex 3dff9e
 module edit
 module devsh
 sleep 200
-echo Loading devshell...
+typewriter 50 Loading devshell...
 sleep 500
 hex
 devsh`,
