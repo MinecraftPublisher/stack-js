@@ -1,25 +1,7 @@
 export const registryDB = {
-  'default.st': `// an empty StackScript program.
+  "default.st": `// an empty StackScript program.
 echo empty`,
-  'wget.st': `accepts url
-// devshell implementation of wget using javascript
-// only downloads text
-
-echo Downloading \${input_url}...
-
-jscontext filetext
-await (await fetch(stack.input.url)).text()
-end filetext
-
-echo Writing file...
-
-jscontext filename
-stack.path + stack.input.url.split('/').slice(url.split('/').length - 1)
-end filename
-
-write js_filename js_filetext
-echo Done writing \${js_filename}`,
-  'edit.st': `# the default editor
+  "edit.st": `# the default editor
 
 # prep
 memwrite edit-func-exit-cmd $$exit
@@ -51,25 +33,27 @@ end edit-func-js_input
 
 ifnot edit-func-fileinput edit-func-exit-cmd edit-func-check
 end edit`,
-  'boot.st': `
+  "boot.st": `
 echo [MSG_BOOT_DROP_SYSTEM]
 hex fc447b
-echo StackOS
+typewriter 80 StackOS
+hex 54fff3
+typewriter 50 Instant boot customizable operating system on the fly.
 sleep 800
 hex 3dff9e
 module edit
 module devsh
 sleep 200
 echo Loading devshell...
-sleep 100
+sleep 500
 hex
 devsh`,
-  'devsh.st': `# devshell
+  "devsh.st": `# devshell
 func devsh
 prompt <span style="color: #ffbf49;">devsh <span style="color: #3debff;">%{memread path}</span></span><span style="color: #ff4949;"> ❯ </span>
 input term-input
 run %{memread term-input}
 devsh
-end devsh`,
+end devsh`
 };
 export default registryDB;

@@ -3,7 +3,7 @@
  * Create a small, Nearly functioning operating system in the web.
  * A filesystem needs to be provided to the system, Otherwise it will not function.
  */
-import registryDB from '/registryDB.js';
+import registryDB from "/registryDB.js";
 /**
  * @typedef {Object} StackFile
  * @property {string} content - The file content.
@@ -19,8 +19,8 @@ import registryDB from '/registryDB.js';
  */
 export function StackFile(filetext, registryname, jscontext) {
   try {
-    this.content = filetext || '';
-    this.registryname = registryname || 'default.st';
+    this.content = filetext || "";
+    this.registryname = registryname || "default.st";
     this.jscontext = jscontext || registryDB[registryname] === this.content;
   } catch {
     return {};
@@ -41,12 +41,12 @@ export const registry = registryDB;
  * @param {object} filesystem - A StackOS filesystem.
  * @param {object} options - Provide various options for the StackOS instance.
  */
-export let color = 'ff503d';
-export let path = '/';
-async function linify(input, model) {
+export let color = "ff503d";
+export let path = "/";
+async function linify(input, model, stdin) {
   var line = input;
   for (var match of line.match(/%{[^%{}]+}/) || []) {
-    let output = '';
+    let output = "";
     // run the code with a custom stdout
     await model.execute(
       new StackFile(match.slice(2, match.length - 1)),
@@ -57,14 +57,14 @@ async function linify(input, model) {
     );
     line = line.replace(match, output);
   }
-  if (line.match(/%{[^%{}]+}/)) return linify(line, model);
+  if (line.match(/%{[^%{}]+}/)) return linify(line, model, stdin);
   else return line;
 }
 export function stack(filesystem, options) {
   const system = {
     memory: {},
     filesystem: filesystem || {
-      '/boot.st': new StackFile('module boot'),
+      "/boot.st": new StackFile("module boot")
     },
     stdin: options?.stdin,
     stdout: options?.stdout,
@@ -84,57 +84,69 @@ export function stack(filesystem, options) {
       isolated = options?.isolated,
       javascript = options?.javascript
     ) {
-      const code = fileinput.content.split('\n');
+      const code = fileinput.content.split("\n");
       for (var i = 0; i < code.length; i++) {
-        var line = await linify(code[i], this);
-        this.memory['path'] = path;
-        const array = line.split(' ');
+        var line = await linify(code[i], this, stdin);
+        this.memory["path"] = path;
+        const array = line.split(" ");
         let command = array[0];
-        let args = array.slice(1).join(' ');
+        let args = array.slice(1).join(" ");
         if (
-          line != '' &&
-          line != ' ' &&
-          command != '#' &&
-          command != '//' &&
-          command != 'rem'
+          line !== "" &&
+          line !== " " &&
+          command !== "#" &&
+          command !== "//" &&
+          command !== "rem"
         ) {
           switch (command) {
-            case 'echo': {
+            case "echo": {
               stdout(args, color, true);
               break;
             }
-            case 'key': {
+            case "key": {
               stdout(args, color, false);
               break;
             }
-            case 'hex': {
+            case "typewriter": {
+              for (const char of args
+                .split(" ")
+                .slice(1, args.split(" ").length)
+                .join(" ")) {
+                stdout(char, color, false);
+                await sleep(parseInt(args.split(" ")[0], 10));
+              }
+              await sleep(200);
+              stdout("\n", color, false);
+              break;
+            }
+            case "hex": {
               if (args.length <= 1) {
-                color = 'ff503d';
+                color = "ff503d";
               } else {
                 color = args;
               }
               break;
             }
-            case 'clear': {
-              stdclear, isolated, javascript || fileinput.jscontext();
+            case "clear": {
+              stdclear();
               break;
             }
-            case 'prompt': {
+            case "prompt": {
               this.memory[`PROMPT[]`] = args;
               break;
             }
-            case 'memread': {
+            case "memread": {
               stdout(this.memory[args]);
               break;
             }
-            case 'memwrite': {
-              this.memory[args.split(' ')[0]] = args
-                .split(' ')
+            case "memwrite": {
+              this.memory[args.split(" ")[0]] = args
+                .split(" ")
                 .slice(1)
-                .join(' ');
+                .join(" ");
               break;
             }
-            case 'run': {
+            case "run": {
               if (!isolated) {
                 await this.execute(
                   new StackFile(args),
@@ -146,7 +158,7 @@ export function stack(filesystem, options) {
                 );
               } else {
                 await this.execute(
-                  new StackFile('echo devsh: program is isolated'),
+                  new StackFile("echo devsh: program is isolated"),
                   stdin,
                   stdout,
                   stdclear,
@@ -156,47 +168,47 @@ export function stack(filesystem, options) {
               }
               break;
             }
-            case 'input': {
+            case "input": {
               this.memory[args] = await stdin(this.memory[`PROMPT[]`]);
               break;
             }
-            case 'sleep': {
-              await sleep(parseInt(args));
+            case "sleep": {
+              await sleep(parseInt(args, 10));
               break;
             }
-            case 'exit': {
+            case "exit": {
               i = code.length + 100000;
               break;
             }
             /* filesystem-related commands */
-            case 'read': {
+            case "read": {
               stdout(
-                this.filesystem[args.startsWith('/') ? args : path + args]
+                this.filesystem[args.startsWith("/") ? args : path + args]
                   ?.content || "devsh: couldn't find file " + args
               );
               break;
             }
-            case 'write': {
+            case "write": {
               this.filesystem[
-                args.split(' ')[0].startsWith('/')
-                  ? args.split(' ')[0]
-                  : path + args.split(' ')[0]
+                args.split(" ")[0].startsWith("/")
+                  ? args.split(" ")[0]
+                  : path + args.split(" ")[0]
               ] = new StackFile(
-                args.split(' ').slice(1).join(' ').split('\\n').join('\n')
+                args.split(" ").slice(1).join(" ").split("\\n").join("\n")
               );
               break;
             }
-            case 'rm': {
-              if (!args.startsWith('/')) args = '/' + args;
+            case "rm": {
+              if (!args.startsWith("/")) args = "/" + args;
               if (this.filesystem[args]) this.filesystem[args] = undefined;
               break;
             }
-            case 'import': {
+            case "import": {
               if (!isolated) {
                 await this.execute(
                   this.filesystem[path + args] ||
                     new StackFile(
-                      'echo devsh: couldn\'t find file "' + args + '"'
+                      "echo devsh: couldn't find file \"" + args + '"'
                     ),
                   stdin,
                   stdout,
@@ -206,7 +218,7 @@ export function stack(filesystem, options) {
                 );
               } else {
                 await this.execute(
-                  new StackFile('echo devsh: program is isolated'),
+                  new StackFile("echo devsh: program is isolated"),
                   stdin,
                   stdout,
                   stdclear,
@@ -216,12 +228,12 @@ export function stack(filesystem, options) {
               }
               break;
             }
-            case 'module': {
+            case "module": {
               if (!isolated) {
                 await this.execute(
-                  new StackFile(registry[args + '.st'], args + '.st', true) ||
+                  new StackFile(registry[args + ".st"], args + ".st", true) ||
                     new StackFile(
-                      'echo devsh: couldn\'t find module "' + args + '"'
+                      "echo devsh: couldn't find module \"" + args + '"'
                     ),
                   stdin,
                   stdout,
@@ -231,7 +243,7 @@ export function stack(filesystem, options) {
                 );
               } else {
                 await this.execute(
-                  new StackFile('echo devsh: program is isolated'),
+                  new StackFile("echo devsh: program is isolated"),
                   stdin,
                   stdout,
                   stdclear,
@@ -241,13 +253,13 @@ export function stack(filesystem, options) {
               }
               break;
             }
-            case 'unlock': {
+            case "unlock": {
               if (javascript || fileinput.jscontext) {
                 this.filesystem[
-                  args.startsWith('/') ? args : path + args
+                  args.startsWith("/") ? args : path + args
                 ].jscontext = true;
                 await this.execute(
-                  new StackFile('echo File unlocked.'),
+                  new StackFile("echo File unlocked."),
                   stdin,
                   stdout,
                   stdclear,
@@ -256,7 +268,7 @@ export function stack(filesystem, options) {
                 );
               } else {
                 await this.execute(
-                  new StackFile('echo devsh: jscontext is currently locked.'),
+                  new StackFile("echo devsh: jscontext is currently locked."),
                   stdin,
                   stdout,
                   stdclear,
@@ -267,22 +279,22 @@ export function stack(filesystem, options) {
               break;
             }
             /* filesystem-related commands */
-            case 'func': {
+            case "func": {
               this.memory[`FUNCTION[${args}]`] = new StackFile(
-                '# function: ' + args,
+                "# function: " + args,
                 fileinput.registryname,
                 fileinput.jscontext
               );
-              for (++i; code[i] != 'end ' + args; i++)
-                this.memory[`FUNCTION[${args}]`].content += '\n' + code[i];
+              for (++i; code[i] !== "end " + args; i++)
+                this.memory[`FUNCTION[${args}]`].content += "\n" + code[i];
               break;
             }
-            case 'jscontext': {
+            case "jscontext": {
               let jscontextcode = new StackFile(
-                '// javascript: ' + args.split('\n').join(' ')
+                "// javascript: " + args.split("\n").join(" ")
               );
-              for (++i; code[i] != 'end ' + args; i++) {
-                jscontextcode.content += '\n' + code[i];
+              for (++i; code[i] !== "end " + args; i++) {
+                jscontextcode.content += "\n" + code[i];
               }
               if (javascript || fileinput.jscontext) {
                 this.memory[args] = eval(
@@ -294,7 +306,7 @@ export function stack(filesystem, options) {
                 );
               } else {
                 await this.execute(
-                  new StackFile('echo devsh: jscontext is blocked'),
+                  new StackFile("echo devsh: jscontext is blocked"),
                   stdin,
                   stdout,
                   stdclear,
@@ -304,16 +316,16 @@ export function stack(filesystem, options) {
               }
               break;
             }
-            case 'if': {
+            case "if": {
               if (
-                this.memory[args.split(' ')[0]] ===
-                this.memory[args.split(' ')[1]]
+                this.memory[args.split(" ")[0]] ===
+                this.memory[args.split(" ")[1]]
               ) {
                 await this.execute(
-                  this.memory[`FUNCTION[${args.split(' ')[2]}]`] ||
+                  this.memory[`FUNCTION[${args.split(" ")[2]}]`] ||
                     new StackFile(
                       'echo devsh: command "' +
-                        args.split(' ')[2] +
+                        args.split(" ")[2] +
                         '" not found'
                     ),
                   stdin,
@@ -325,13 +337,13 @@ export function stack(filesystem, options) {
               }
               break;
             }
-            case 'exists': {
-              if (this.memory[args.split(' ')[0]]) {
+            case "exists": {
+              if (this.memory[args.split(" ")[0]]) {
                 await this.execute(
-                  this.memory[`FUNCTION[${args.split(' ')[1]}]`] ||
+                  this.memory[`FUNCTION[${args.split(" ")[1]}]`] ||
                     new StackFile(
                       'echo devsh: command "' +
-                        args.split(' ')[2] +
+                        args.split(" ")[2] +
                         '" not found'
                     ),
                   stdin,
@@ -343,13 +355,13 @@ export function stack(filesystem, options) {
               }
               break;
             }
-            case 'existsnot': {
-              if (!this.memory[args.split(' ')[0]]) {
+            case "existsnot": {
+              if (!this.memory[args.split(" ")[0]]) {
                 await this.execute(
-                  this.memory[`FUNCTION[${args.split(' ')[1]}]`] ||
+                  this.memory[`FUNCTION[${args.split(" ")[1]}]`] ||
                     new StackFile(
                       'echo devsh: command "' +
-                        args.split(' ')[2] +
+                        args.split(" ")[2] +
                         '" not found'
                     ),
                   stdin,
@@ -361,16 +373,16 @@ export function stack(filesystem, options) {
               }
               break;
             }
-            case 'ifnot': {
+            case "ifnot": {
               if (
-                this.memory[args.split(' ')[0]] !==
-                this.memory[args.split(' ')[1]]
+                this.memory[args.split(" ")[0]] !==
+                this.memory[args.split(" ")[1]]
               ) {
                 await this.execute(
-                  this.memory[`FUNCTION[${args.split(' ')[2]}]`] ||
+                  this.memory[`FUNCTION[${args.split(" ")[2]}]`] ||
                     new StackFile(
                       'echo devsh: command "' +
-                        args.split(' ')[2] +
+                        args.split(" ")[2] +
                         '" not found'
                     ),
                   stdin,
@@ -399,7 +411,7 @@ export function stack(filesystem, options) {
           }
         }
       }
-    },
+    }
   };
   return system;
 }

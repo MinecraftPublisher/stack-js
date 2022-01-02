@@ -29,11 +29,11 @@
 }
 
         async function stdin(input) {
-            stdout(input, true)
+            stdout(input, false)
             while (true) { await EmuVBE["sleep"](100); if (EmuVBE["input_queue"][EmuVBE["input_queue"].length - 1] == "Enter") { EmuVBE["input_queue"].pop(); let data = EmuVBE["input_queue"].join(""); EmuVBE["input_queue"] = []; return data; } }
         }
         function stdout(output, line, color) {
-            EmuVBE["log"](`<span style="color: #${color ? color : "3d84ff"};">${output}</span>` + (!line ? "<br>": ""))
+            EmuVBE["log"](`<span style="color: #${color ? color : "3d84ff"};">${output}</span>` + (line ? "<br>": ""))
             // EmuVBE["log"](output)
         }
         function stdclear() {
@@ -61,7 +61,7 @@ let thing = document.querySelector("#textarea").innerHTML.split('');thing.pop();
             "setup": () => {
             EmuVBE["element"].setAttribute('readonly', '');
               setInterval(() => {
-                EmuVBE.element.focus()
+                    // EmuVBE.element.focus()
                     EmuVBE.element.scrollTo(0, document.body.scrollHeight);
                     // EmuVBE.element.setSelectionRange(EmuVBE.element.innerHTML.length, EmuVBE.element.innerHTML.length);
                 }, 100)
@@ -99,7 +99,7 @@ this.stdclear = function stdclear() {
   postMessage(["clear"])
 }
 
-async function stdout(input, line) { postMessage(["out", input, !line, stackjs.color]) };
+async function stdout(input, color, line) { postMessage(["out", input, line, color]) };
 
 onmessage = async function(e) {
   if (e.data[0] == "execute") {
@@ -141,14 +141,13 @@ onmessage = async function(e) {
             } else if(type==="out") {
               if(prompt === "[MSG_BOOT_DROP_SYSTEM]") {
                 saveenabled = true;
+                window.worker.postMessage(["fs", JSON.parse(localStorage.getItem("fs"))])
               } else {
                 stdout(prompt, e.data[2], e.data[3]);
               }
             }
           }
-          window.worker.postMessage(["init", window.location.href + 'stack.js'])
-          await EmuVBE.sleep(100)
-          window.worker.postMessage(["fs", JSON.parse(localStorage.getItem("fs"))])
+          window.worker.postMessage(["init", 'https://73i5k.csb.app/stack.js'])
           await EmuVBE.sleep(500)
           window.worker.postMessage(["execute", 'import boot.st'])
         } else {
