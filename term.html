@@ -99,7 +99,7 @@ this.stdclear = function stdclear() {
   postMessage(["clear"])
 }
 
-this.stdout = async function stdout(input) { postMessage(["out", input, stackjs.color]) };
+async function stdout(input, line) { postMessage(["out", input, !line, stackjs.color]) };
 
 onmessage = async function(e) {
   if (e.data[0] == "execute") {
@@ -142,7 +142,7 @@ onmessage = async function(e) {
               if(prompt === "[MSG_BOOT_DROP_SYSTEM]") {
                 saveenabled = true;
               } else {
-                stdout(prompt, false, e.data[2])
+                stdout(prompt, e.data[2], e.data[3]);
               }
             }
           }

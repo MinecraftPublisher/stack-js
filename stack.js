@@ -100,7 +100,11 @@ export function stack(filesystem, options) {
         ) {
           switch (command) {
             case 'echo': {
-              stdout(args, color);
+              stdout(args, color, true);
+              break;
+            }
+            case 'key': {
+              stdout(args, color, false);
               break;
             }
             case 'hex': {
