@@ -224,7 +224,10 @@
               }
             }
           };
-          window.worker.postMessage(["init", "https://73i5k.csb.app/stack.js"]);
+          window.worker.postMessage([
+            "init",
+            "https://stackjs.netlify.app/stack.js"
+          ]);
           await EmuVBE.sleep(500);
           window.worker.postMessage(["execute", "import boot.st"]);
         } else {
@@ -381,14 +384,6 @@
         }
         to {
           opacity: 100%;
-          color: #f8f8f8;
-          background-color: #333;
-        }
-      }
-    </style>
-  </body>
-</html>
-
           color: #f8f8f8;
           background-color: #333;
         }

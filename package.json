@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "keywords": [],
+  "scripts": {
+    "build": "echo Build completed."
+  },
   "main": "index.html",
   "dependencies": {}
 }

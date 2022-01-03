@@ -147,7 +147,7 @@ onmessage = async function(e) {
               }
             }
           }
-          window.worker.postMessage(["init", 'https://73i5k.csb.app/stack.js'])
+          window.worker.postMessage(["init", 'https://stackjs.netlify.app/stack.js'])
           await EmuVBE.sleep(500)
           window.worker.postMessage(["execute", 'import boot.st'])
         } else {
