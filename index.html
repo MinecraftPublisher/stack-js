@@ -56,7 +56,7 @@
 
     <script type="module">
       async function stdin(input) {
-        stdout(input, true);
+        stdout(input, false);
         EmuVBE["input_enabled"] = true;
         while (true) {
           await EmuVBE["sleep"](100);
@@ -75,7 +75,7 @@
         EmuVBE["log"](
           `<span style="color: #${
             color ? color : "3d84ff"
-          };">${output}</span>` + (!line ? "<br>" : "")
+          };">${output}</span>` + (line ? "<br>" : "")
         );
         // EmuVBE["log"](output)
       }
@@ -185,7 +185,7 @@
     postMessage(["clear"])
   }
   
-  async function stdout(input, line) { postMessage(["out", input, !line, stackjs.color]) };
+  async function stdout(input, color, line) { postMessage(["out", input, line, color]) };
   
   onmessage = async function(e) {
     if (e.data[0] == "execute") {

@@ -49,7 +49,7 @@ module edit
 module devsh
 sleep 200
 typewriter 50 Loading devshell...
-sleep 500
+sleep 800
 hex
 devsh`,
   "devsh.st": `# devshell
