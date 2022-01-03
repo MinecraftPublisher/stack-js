@@ -14,7 +14,7 @@ prompt Enter a file name to edit:
 input edit-func-filename
 write %{memread edit-func-filename} 
 hex fff
-typewriter 10 Got it! If you want to close the program, Please type "$$exit" and press enter to close at any time.
+typewriter 10 Got it! If you want to close the editor, Please type "$$exit" and press enter to close at any time.
 end edit-func-fileprompt
 
 func edit-func-check
@@ -37,6 +37,7 @@ end edit-func-js_input
 ifnot edit-func-fileinput edit-func-exit-cmd edit-func-check
 end edit`,
   "boot.st": `
+clear
 echo [MSG_BOOT_DROP_SYSTEM]
 hex fc447b
 typewriter 60 StackOS
