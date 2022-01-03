@@ -154,7 +154,7 @@ export function stack(filesystem, options) {
                   stdout,
                   stdclear,
                   isolated,
-                  javascript || fileinput.jscontext
+                  false
                 );
               } else {
                 await this.execute(
@@ -304,7 +304,10 @@ export function stack(filesystem, options) {
                     this.memory
                   )}, "filesystem": ${JSON.stringify(
                     this.filesystem
-                  )}, "path": ${JSON.stringify(path)}}` + jscontextcode.content
+                  )}, "path": ${JSON.stringify(
+                    path
+                  )}}; const require = (name) => { import(name).then((module) => { return module; }) }` +
+                    jscontextcode.content
                 );
               } else {
                 await this.execute(

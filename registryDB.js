@@ -1,6 +1,6 @@
 export const registryDB = {
   "default.st": `// an empty StackScript program.
-echo empty`,
+echo -- empty --`,
   "edit.st": `# the default editor
 
 # prep
