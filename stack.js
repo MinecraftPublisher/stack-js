@@ -45,20 +45,19 @@ export let color = "ff503d";
 export let path = "/";
 async function linify(input, model, stdin) {
   var line = input;
-  for (var match of line.match(/%{[^%{}]+}/) || []) {
+  for (var match of line.matchAll(/%{[^%{}]+}/g) || []) {
     let output = "";
     // run the code with a custom stdout
     await model.execute(
-      new StackFile(match.slice(2, match.length - 1)),
+      new StackFile(match[0].slice(2, match[0].length - 1)),
       stdin,
       (string) => {
         output += string;
       }
     );
-    line = line.replace(match, output);
+    line = line.replace(match[0], output);
   }
-  if (line.match(/%{[^%{}]+}/)) return linify(line, model, stdin);
-  else return line;
+  return line;
 }
 export function stack(filesystem, options) {
   const system = {
@@ -107,18 +106,6 @@ export function stack(filesystem, options) {
               stdout(args, color, false);
               break;
             }
-            case "typewriter": {
-              for (const char of args
-                .split(" ")
-                .slice(1, args.split(" ").length)
-                .join(" ")) {
-                stdout(char, color, false);
-                await sleep(parseInt(args.split(" ")[0], 10));
-              }
-              await sleep(200);
-              stdout("\n", color, false);
-              break;
-            }
             case "hex": {
               if (args.length <= 1) {
                 color = "ff503d";
@@ -144,6 +131,10 @@ export function stack(filesystem, options) {
                 .split(" ")
                 .slice(1)
                 .join(" ");
+              break;
+            }
+            case "memrm": {
+              this.memory[args] = undefined;
               break;
             }
             case "run": {
@@ -400,6 +391,13 @@ export function stack(filesystem, options) {
               break;
             }
             default: {
+              if (args) {
+                this.memory[`func-${command}-args`] = args;
+                for (i = 0; i < args.split(" ").length; i++) {
+                  this.memory[`func-${command}-arg-${i}`] = args.split(" ")[i];
+                }
+              }
+              await sleep(200);
               await this.execute(
                 this.memory[`FUNCTION[${command}]`] ||
                   new StackFile(
@@ -411,6 +409,12 @@ export function stack(filesystem, options) {
                 isolated,
                 javascript || fileinput.jscontext
               );
+              if (args) {
+                this.memory[`func-${command}-args`] = undefined;
+                for (i = 0; i < args.split(" ").length; i++) {
+                  this.memory[`func-${command}-arg-${i}`] = undefined;
+                }
+              }
               break;
             }
           }
