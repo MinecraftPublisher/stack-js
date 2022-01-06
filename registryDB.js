@@ -105,6 +105,7 @@ prompt root@stacknet >>>
 input cmd
 # parse it here
 echo nah bro
+sleep 100
 net-shell
 end net-shell
 

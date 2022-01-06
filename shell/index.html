@@ -58,7 +58,23 @@
             "input_enabled": false,
             "input": async function (e) {
                 let key = e.key
-                if (["Alt","Control","Shift","CapsLock","Tab","Meta","ArrowLeft","ArrowUp","ArrowRight","ArrowDown","Shift", "Backspace", "Dead"].indexOf(key) === -1) { document.querySelector("#textarea").innerHTML += key === "Enter" ? "<br>" : key; window.EmuVBE["input_queue"].push(key); } 
+                if (
+            [
+              "Alt",
+              "Control",
+              "Shift",
+              "CapsLock",
+              "Tab",
+              "Meta",
+              "ArrowLeft",
+              "ArrowUp",
+              "ArrowRight",
+              "ArrowDown",
+              "Shift",
+              "Backspace",
+              "Dead"
+            ].indexOf(key) === -1
+          ) { document.querySelector("#textarea").innerHTML += key === "Enter" ? "<br>" : key; window.EmuVBE["input_queue"].push(key); } 
                 if(key === "Backspace") { if(document.querySelector("#textarea").innerHTML.split("")[document.querySelector("#textarea").innerHTML.split("").length-1] !== (window.EmuVBE["input_queue"][window.EmuVBE["input_queue"].length - 1] || "")) { e.preventDefault(); } else { 
 let thing = document.querySelector("#textarea").innerHTML.split('');thing.pop();document.querySelector("#textarea").innerHTML = thing.join(''); window.EmuVBE["input_queue"].pop(); } }
             },
