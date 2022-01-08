@@ -112,7 +112,7 @@ const sleep = (milliseconds) => {
 this.stdin = async function stdin(input, confirm = true) {
       confirm && postMessage(["in", input])
       if(!resultRecieved) {
-        await sleep(100)
+        await sleep(50)
         return await stdin(input, false)
       } else {
         resultRecieved = false

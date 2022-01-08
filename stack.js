@@ -1,6 +1,6 @@
 /*
  * Stack.js
- * Create a small, Nearly functioning operating system in the web.
+ * Create a small, Functioning operating system in the web.
  * A filesystem needs to be provided to the system, Otherwise it will not function.
  */
 import registryDB from "/registryDB.js";
@@ -226,7 +226,9 @@ export function stack(filesystem, options) {
                 await this.execute(
                   new StackFile(registry[args + ".st"], args + ".st", true) ||
                     new StackFile(
-                      "echo devsh: couldn't find module \"" + args + '"'
+                      "echo devsh: couldn't find module \"" + args + '"',
+                      "",
+                      true
                     ),
                   stdin,
                   stdout,
@@ -333,6 +335,42 @@ export function stack(filesystem, options) {
               }
               break;
             }
+            case "existsfile": {
+              if (this.filesystem[args.split(" ")[0]]) {
+                await this.execute(
+                  this.memory[`FUNCTION[${args.split(" ")[1]}]`] ||
+                    new StackFile(
+                      'echo devsh: command "' +
+                        args.split(" ")[2] +
+                        '" not found'
+                    ),
+                  stdin,
+                  stdout,
+                  stdclear,
+                  isolated,
+                  javascript || fileinput.jscontext
+                );
+              }
+              break;
+            }
+            case "existsnotfile": {
+              if (!this.filesystem[args.split(" ")[0]]) {
+                await this.execute(
+                  this.memory[`FUNCTION[${args.split(" ")[1]}]`] ||
+                    new StackFile(
+                      'echo devsh: command "' +
+                        args.split(" ")[2] +
+                        '" not found'
+                    ),
+                  stdin,
+                  stdout,
+                  stdclear,
+                  isolated,
+                  javascript || fileinput.jscontext
+                );
+              }
+              break;
+            }
             case "exists": {
               if (this.memory[args.split(" ")[0]]) {
                 await this.execute(
@@ -397,7 +435,7 @@ export function stack(filesystem, options) {
                   this.memory[`func-${command}-arg-${i}`] = args.split(" ")[i];
                 }
               }
-              await sleep(200);
+              await sleep(50);
               await this.execute(
                 this.memory[`FUNCTION[${command}]`] ||
                   new StackFile(

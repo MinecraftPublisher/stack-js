@@ -73,42 +73,88 @@ input term-input
 run %{memread term-input}
 devsh
 end devsh`,
-  "net.st": `# The original implementation of StackNet - A hacking simulation game
+  "plug.st": `
+# PlugLands
+# Written in StackScript and JavaScript
 
-func deploy
-echo YOU THOUGHT-
-end deploy
+echo --- PlugLands ---
 
-echo Loading StackNet kit...
+sleep 200
+
+echo Starting program initialization...
+sleep 200
+
+func pluglands-run
+echo Booting PlugLands...
 sleep 400
-echo Launching network services...
-sleep 200
-echo Executing binary exploits...
-sleep 1000
-echo Compressing memory...
-sleep 200
-echo Finalizing...
-sleep 1800
-echo Clearing unusued slots...
-sleep 600
-echo Finding a host...
-sleep 800
-echo Opening ports...
-sleep 1600
-echo Syncing with the host...
-sleep 600
-hex ff3f3f
-echo The StackNet kit has been loaded. Run <b><i>deploy</i></b> for more info.
-sleep 2000
-func net-shell
-prompt root@stacknet >>> 
-input cmd
-# parse it here
-echo nah bro
-sleep 100
-net-shell
-end net-shell
+unlock pluglands.st
+import pluglands.st
+echo Done!
+pluglands
+end pluglands-run
 
-net-shell`
+func pluglands-prompt
+echo It seems like the game data has either not been downloaded, Or it is not the latest version.
+echo To install/update your game, You need to download it from a trusted source.
+prompt Would you like to download the game now? (yes/no) 
+memwrite yes yes
+memwrite no no
+input decision
+if decision yes pluglands-download
+if decision no pluglands-abort
+end pluglands-prompt
+
+func pluglands-download
+echo Downloading...
+jscontext pluglands-file
+var xmlHttp = new XMLHttpRequest();
+xmlHttp.open( "GET", "https://csb-73i5k.netlify.app/pluglands/pluglands.st", false );
+xmlHttp.send( null );
+xmlHttp.responseText;
+end pluglands-file
+jscontext latest
+var xmlHttp = new XMLHttpRequest();
+xmlHttp.open( "GET", "https://csb-73i5k.netlify.app/pluglands/pluglands-version", false );
+xmlHttp.send( null );
+xmlHttp.responseText;
+end latest
+echo Download finished! Saving...
+write /pluglands.st %{memread pluglands-file}
+write /pluglands-version %{memread latest}
+pluglands-run
+end pluglands-download
+
+func pluglands-abort
+echo Aborted.
+echo --------------
+end pluglands-abort
+
+func pluglands-continue
+echo Available installation found!
+sleep 200
+echo Checking if the installation is the latest version...
+memwrite version %{read /pluglands-version}
+jscontext latest
+var xmlHttp = new XMLHttpRequest();
+xmlHttp.open( "GET", "https://csb-73i5k.netlify.app/pluglands/pluglands-version", false );
+xmlHttp.send( null );
+xmlHttp.responseText;
+end latest
+if version latest pluglands-run
+ifnot version latest pluglands-prompt
+end pluglands-continue
+
+
+
+
+
+echo Program initialized!
+sleep 300
+echo Checking for installation...
+existsfile /pluglands.st pluglands-continue
+existsnotfile /pluglands.st pluglands-prompt
+
+
+`
 };
 export default registryDB;
