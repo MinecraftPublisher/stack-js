@@ -41,7 +41,7 @@
 
         async function stdin(input) {
             stdout(input, false)
-            while (true) { await EmuVBE["sleep"](100); if (EmuVBE["input_queue"][EmuVBE["input_queue"].length - 1] == "Enter") { EmuVBE["input_queue"].pop(); let data = EmuVBE["input_queue"].join(""); EmuVBE["input_queue"] = []; return data; } }
+            while (true) { await EmuVBE["sleep"](50); if (EmuVBE["input_queue"][EmuVBE["input_queue"].length - 1] == "Enter") { EmuVBE["input_queue"].pop(); let data = EmuVBE["input_queue"].join(""); EmuVBE["input_queue"] = []; return data; } }
         }
         function stdout(output, line, color) {
             EmuVBE["log"](`<span style="color: #${color ? color : "3d84ff"};">${output}</span>` + (line ? "<br>": ""))
@@ -112,7 +112,7 @@ const sleep = (milliseconds) => {
 this.stdin = async function stdin(input, confirm = true) {
       confirm && postMessage(["in", input])
       if(!resultRecieved) {
-        await sleep(50)
+        await sleep(10)
         return await stdin(input, false)
       } else {
         resultRecieved = false
