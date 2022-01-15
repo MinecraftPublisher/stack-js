@@ -422,7 +422,7 @@ export function stack(filesystem, options) {
           };
           commands = Object.assign(commands, this.expansion);
           if (commands[command]) {
-            commands[command]();
+            await commands[command]();
           } else {
             if (args) {
               this.memory[`func-${command}-args`] = args;
