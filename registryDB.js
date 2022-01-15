@@ -155,6 +155,12 @@ existsfile /pluglands.st pluglands-continue
 existsnotfile /pluglands.st pluglands-prompt
 
 
+`,
+  "test.st": `
+jscontext sample
+require('https://csb-73i5k.netlify.app/stack.js')
+end sample
+echo %{memread sample}
 `
 };
 export default registryDB;

@@ -6,6 +6,14 @@ existsfile /pluglands-game-data load-data-file
 existsnotfile /pluglands-game-data tutorial
 end pluglands
 
+func pluglands-key-v
+# implement a relic system
+end pluglands-key-v
+
+func pluglands-key-t
+# implement a chat system
+end pluglands-key-t
+
 func pluglands-key-.
 # New frame rendering, No need to do anything
 end pluglands-key-.
@@ -455,7 +463,9 @@ memwrite right-key d
 memwrite interact-key e
 memwrite attack-key z
 memwrite defend-key g
+memwrite chat-key t
 memwrite inventory-key i
+memwrite items-key v
 end setup-keys
 
 func load-data-file
@@ -501,8 +511,6 @@ key Making the game slow paced and more fun!
 sleep 800
 echo
 sleep 200
-prompt <span style="color: #55fcb4;">One last thing, What is your name? (you can change this later) </span>
-input username
 echo That's all, Now begin!
 write /pluglands-game-data {"world": "tutorial", "room": "0"}
 sleep 1000

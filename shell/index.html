@@ -147,7 +147,8 @@ onmessage = async function(e) {
     version = stack(undefined, {
       stdin: stdin,
       stdout: stdout,
-      stdclear: stdclear
+      stdclear: stdclear,
+      javascript: true
     })
   }
 }`]))
@@ -326,5 +327,13 @@ EmuVBE.element.focus()
         }
       }
     </style>
+
+    <script>
+if('serviceWorker' in navigator) {
+  navigator.serviceWorker
+           .register('/sw.js')
+           .then(function() { console.log("Service Worker Registered"); });
+}
+</script>
   </body>
 </html>
