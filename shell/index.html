@@ -1,108 +1,108 @@
 <html>
-  <head>
-      <title>StackJS - Shell</title>
-    <meta charset="UTF-8" />
-    <link
-      rel="shortcut icon"
-      href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAmlJREFUeF7tmb9OAkEQxqEwsUAtjJAQS1/gbOx5B2OtDQ9ApQ+gFQ9Ag7XxHehtvBewNCRgLFQKEwuNhj3d9ea+m/0DBzuU7N7++c33zcxBvRb5px75/WsCQBSwJALJ7fXn363T49OlqHEpm35fPBoA5kW5ggutjOAKEACG10UBTAIrYwEk9fRpwrp6stcqnO8LjLccEB0A3xdG8gilCGsFRANg0RdFSjDHXZUBFSAAQB3nZnduhNF8UYBjucwsUHWpIyXY5gYBULu60N7LM5I721zo1Z7/8pp7vroAUFwoJajxVVMEEfFMBueXP/b/7QMEAJELRAFzAmtvASqHV90aJb1OXQ++C5BVoirW8AUguXvI7wcIdOloWFz3fVsGXDTpnLH6kPToQK8C8QK4GeVHfrepEU22Not/o/OtCMeIp2/v+nmfp0QnKABEAZFbQDmDsoIaN3KC+to5N4DcjbL7P6+r9QjPZ9uddIx3gegBUJFYEJjQkbbvBGMBMO33WZ1gcz8pdi+zjzAXK1vH1XPTx5TVCTZ7PT0HCABRQKQWuO92c73fajQ0T22024Ue4+YEaFhQx5HnP8ZjbYvJbJb/LhA9AIWFAqHGTUWo752VAaTAjbRajoq4Gj8cDPQqED0AKhCLAhM60tadoAAgqoTv3CAKAK2sWda4yc7aAr5yA6oW5j5l67iZ1WF/YUzA/wsQK3Jzw9oBMLlwgaBIla3jaB00bq0AAYDQzseRMtAyqmND82zHvSnANlmigwuAec+OQNmOiwJsybk+Z+aG0FL33ggJAFcCFXk+eA6oyD3JYwiAqkco9Pm+AKquxx4elLXnAAAAAElFTkSuQmCC"
-    />
-    <link
-      rel="apple-touch-icon"
-      href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAmlJREFUeF7tmb9OAkEQxqEwsUAtjJAQS1/gbOx5B2OtDQ9ApQ+gFQ9Ag7XxHehtvBewNCRgLFQKEwuNhj3d9ea+m/0DBzuU7N7++c33zcxBvRb5px75/WsCQBSwJALJ7fXn363T49OlqHEpm35fPBoA5kW5ggutjOAKEACG10UBTAIrYwEk9fRpwrp6stcqnO8LjLccEB0A3xdG8gilCGsFRANg0RdFSjDHXZUBFSAAQB3nZnduhNF8UYBjucwsUHWpIyXY5gYBULu60N7LM5I721zo1Z7/8pp7vroAUFwoJajxVVMEEfFMBueXP/b/7QMEAJELRAFzAmtvASqHV90aJb1OXQ++C5BVoirW8AUguXvI7wcIdOloWFz3fVsGXDTpnLH6kPToQK8C8QK4GeVHfrepEU22Not/o/OtCMeIp2/v+nmfp0QnKABEAZFbQDmDsoIaN3KC+to5N4DcjbL7P6+r9QjPZ9uddIx3gegBUJFYEJjQkbbvBGMBMO33WZ1gcz8pdi+zjzAXK1vH1XPTx5TVCTZ7PT0HCABRQKQWuO92c73fajQ0T22024Ue4+YEaFhQx5HnP8ZjbYvJbJb/LhA9AIWFAqHGTUWo752VAaTAjbRajoq4Gj8cDPQqED0AKhCLAhM60tadoAAgqoTv3CAKAK2sWda4yc7aAr5yA6oW5j5l67iZ1WF/YUzA/wsQK3Jzw9oBMLlwgaBIla3jaB00bq0AAYDQzseRMtAyqmND82zHvSnANlmigwuAec+OQNmOiwJsybk+Z+aG0FL33ggJAFcCFXk+eA6oyD3JYwiAqkco9Pm+AKquxx4elLXnAAAAAElFTkSuQmCC"
-    />
-    <meta content="StackJS" property="og:title" />
-    <meta
-      content="StackJS is a hybrid operating system that runs in your browser. It has a fully fledged instruction system and a working filesystem."
-      property="og:description"
-    />
-    <meta content="https://csb-73i5k.netlify.app/shell/" property="og:url" />
-    <meta
-      content="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAmlJREFUeF7tmb9OAkEQxqEwsUAtjJAQS1/gbOx5B2OtDQ9ApQ+gFQ9Ag7XxHehtvBewNCRgLFQKEwuNhj3d9ea+m/0DBzuU7N7++c33zcxBvRb5px75/WsCQBSwJALJ7fXn363T49OlqHEpm35fPBoA5kW5ggutjOAKEACG10UBTAIrYwEk9fRpwrp6stcqnO8LjLccEB0A3xdG8gilCGsFRANg0RdFSjDHXZUBFSAAQB3nZnduhNF8UYBjucwsUHWpIyXY5gYBULu60N7LM5I721zo1Z7/8pp7vroAUFwoJajxVVMEEfFMBueXP/b/7QMEAJELRAFzAmtvASqHV90aJb1OXQ++C5BVoirW8AUguXvI7wcIdOloWFz3fVsGXDTpnLH6kPToQK8C8QK4GeVHfrepEU22Not/o/OtCMeIp2/v+nmfp0QnKABEAZFbQDmDsoIaN3KC+to5N4DcjbL7P6+r9QjPZ9uddIx3gegBUJFYEJjQkbbvBGMBMO33WZ1gcz8pdi+zjzAXK1vH1XPTx5TVCTZ7PT0HCABRQKQWuO92c73fajQ0T22024Ue4+YEaFhQx5HnP8ZjbYvJbJb/LhA9AIWFAqHGTUWo752VAaTAjbRajoq4Gj8cDPQqED0AKhCLAhM60tadoAAgqoTv3CAKAK2sWda4yc7aAr5yA6oW5j5l67iZ1WF/YUzA/wsQK3Jzw9oBMLlwgaBIla3jaB00bq0AAYDQzseRMtAyqmND82zHvSnANlmigwuAec+OQNmOiwJsybk+Z+aG0FL33ggJAFcCFXk+eA6oyD3JYwiAqkco9Pm+AKquxx4elLXnAAAAAElFTkSuQmCC"
-      property="og:image"
-    />
-    <meta content="#fc447b" data-react-helmet="true" name="theme-color" />
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-  </head>
-  <body onclick="EmuVBE.element.focus()">
-    <script type="module">
-        window.openFullscreen = function openFullscreen() {
-          var elem = document.querySelector('view')
-  if (elem?.requestFullscreen) {
-    elem.requestFullscreen();
-  } else if (elem?.webkitRequestFullscreen) { /* Safari */
-    elem.webkitRequestFullscreen();
-  } else if (elem?.msRequestFullscreen) { /* IE11 */
-    elem.msRequestFullscreen();
-  }
-}
 
-        async function stdin(input) {
-            stdout(input, false)
-            while (true) { await EmuVBE["sleep"](50); if (EmuVBE["input_queue"][EmuVBE["input_queue"].length - 1] == "Enter") { EmuVBE["input_queue"].pop(); let data = EmuVBE["input_queue"].join(""); EmuVBE["input_queue"] = []; return data; } }
-        }
-        function stdout(output, line, color) {
-            EmuVBE["log"](`<span style="color: #${color ? color : "3d84ff"};">${output}</span>` + (line ? "<br>": ""))
-            // EmuVBE["log"](output)
-        }
-        function stdclear() {
-            EmuVBE["element"].value = ""
-            document.querySelector("#textarea").innerHTML = ""
-        }
+<head>
+  <title>StackJS - Shell</title>
+  <meta charset="UTF-8" />
+  <link rel="shortcut icon"
+    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAmlJREFUeF7tmb9OAkEQxqEwsUAtjJAQS1/gbOx5B2OtDQ9ApQ+gFQ9Ag7XxHehtvBewNCRgLFQKEwuNhj3d9ea+m/0DBzuU7N7++c33zcxBvRb5px75/WsCQBSwJALJ7fXn363T49OlqHEpm35fPBoA5kW5ggutjOAKEACG10UBTAIrYwEk9fRpwrp6stcqnO8LjLccEB0A3xdG8gilCGsFRANg0RdFSjDHXZUBFSAAQB3nZnduhNF8UYBjucwsUHWpIyXY5gYBULu60N7LM5I721zo1Z7/8pp7vroAUFwoJajxVVMEEfFMBueXP/b/7QMEAJELRAFzAmtvASqHV90aJb1OXQ++C5BVoirW8AUguXvI7wcIdOloWFz3fVsGXDTpnLH6kPToQK8C8QK4GeVHfrepEU22Not/o/OtCMeIp2/v+nmfp0QnKABEAZFbQDmDsoIaN3KC+to5N4DcjbL7P6+r9QjPZ9uddIx3gegBUJFYEJjQkbbvBGMBMO33WZ1gcz8pdi+zjzAXK1vH1XPTx5TVCTZ7PT0HCABRQKQWuO92c73fajQ0T22024Ue4+YEaFhQx5HnP8ZjbYvJbJb/LhA9AIWFAqHGTUWo752VAaTAjbRajoq4Gj8cDPQqED0AKhCLAhM60tadoAAgqoTv3CAKAK2sWda4yc7aAr5yA6oW5j5l67iZ1WF/YUzA/wsQK3Jzw9oBMLlwgaBIla3jaB00bq0AAYDQzseRMtAyqmND82zHvSnANlmigwuAec+OQNmOiwJsybk+Z+aG0FL33ggJAFcCFXk+eA6oyD3JYwiAqkco9Pm+AKquxx4elLXnAAAAAElFTkSuQmCC" />
+  <link rel="apple-touch-icon"
+    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAmlJREFUeF7tmb9OAkEQxqEwsUAtjJAQS1/gbOx5B2OtDQ9ApQ+gFQ9Ag7XxHehtvBewNCRgLFQKEwuNhj3d9ea+m/0DBzuU7N7++c33zcxBvRb5px75/WsCQBSwJALJ7fXn363T49OlqHEpm35fPBoA5kW5ggutjOAKEACG10UBTAIrYwEk9fRpwrp6stcqnO8LjLccEB0A3xdG8gilCGsFRANg0RdFSjDHXZUBFSAAQB3nZnduhNF8UYBjucwsUHWpIyXY5gYBULu60N7LM5I721zo1Z7/8pp7vroAUFwoJajxVVMEEfFMBueXP/b/7QMEAJELRAFzAmtvASqHV90aJb1OXQ++C5BVoirW8AUguXvI7wcIdOloWFz3fVsGXDTpnLH6kPToQK8C8QK4GeVHfrepEU22Not/o/OtCMeIp2/v+nmfp0QnKABEAZFbQDmDsoIaN3KC+to5N4DcjbL7P6+r9QjPZ9uddIx3gegBUJFYEJjQkbbvBGMBMO33WZ1gcz8pdi+zjzAXK1vH1XPTx5TVCTZ7PT0HCABRQKQWuO92c73fajQ0T22024Ue4+YEaFhQx5HnP8ZjbYvJbJb/LhA9AIWFAqHGTUWo752VAaTAjbRajoq4Gj8cDPQqED0AKhCLAhM60tadoAAgqoTv3CAKAK2sWda4yc7aAr5yA6oW5j5l67iZ1WF/YUzA/wsQK3Jzw9oBMLlwgaBIla3jaB00bq0AAYDQzseRMtAyqmND82zHvSnANlmigwuAec+OQNmOiwJsybk+Z+aG0FL33ggJAFcCFXk+eA6oyD3JYwiAqkco9Pm+AKquxx4elLXnAAAAAElFTkSuQmCC" />
+  <meta content="StackJS" property="og:title" />
+  <meta
+    content="StackJS is a hybrid operating system that runs in your browser. It has a fully fledged instruction system and a working filesystem."
+    property="og:description" />
+  <meta content="https://csb-73i5k.netlify.app/shell/" property="og:url" />
+  <meta
+    content="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAmlJREFUeF7tmb9OAkEQxqEwsUAtjJAQS1/gbOx5B2OtDQ9ApQ+gFQ9Ag7XxHehtvBewNCRgLFQKEwuNhj3d9ea+m/0DBzuU7N7++c33zcxBvRb5px75/WsCQBSwJALJ7fXn363T49OlqHEpm35fPBoA5kW5ggutjOAKEACG10UBTAIrYwEk9fRpwrp6stcqnO8LjLccEB0A3xdG8gilCGsFRANg0RdFSjDHXZUBFSAAQB3nZnduhNF8UYBjucwsUHWpIyXY5gYBULu60N7LM5I721zo1Z7/8pp7vroAUFwoJajxVVMEEfFMBueXP/b/7QMEAJELRAFzAmtvASqHV90aJb1OXQ++C5BVoirW8AUguXvI7wcIdOloWFz3fVsGXDTpnLH6kPToQK8C8QK4GeVHfrepEU22Not/o/OtCMeIp2/v+nmfp0QnKABEAZFbQDmDsoIaN3KC+to5N4DcjbL7P6+r9QjPZ9uddIx3gegBUJFYEJjQkbbvBGMBMO33WZ1gcz8pdi+zjzAXK1vH1XPTx5TVCTZ7PT0HCABRQKQWuO92c73fajQ0T22024Ue4+YEaFhQx5HnP8ZjbYvJbJb/LhA9AIWFAqHGTUWo752VAaTAjbRajoq4Gj8cDPQqED0AKhCLAhM60tadoAAgqoTv3CAKAK2sWda4yc7aAr5yA6oW5j5l67iZ1WF/YUzA/wsQK3Jzw9oBMLlwgaBIla3jaB00bq0AAYDQzseRMtAyqmND82zHvSnANlmigwuAec+OQNmOiwJsybk+Z+aG0FL33ggJAFcCFXk+eA6oyD3JYwiAqkco9Pm+AKquxx4elLXnAAAAAElFTkSuQmCC"
+    property="og:image" />
+  <meta content="#fc447b" data-react-helmet="true" name="theme-color" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
 
-        window.EmuVBE = {
-            "element": document.querySelector("#inputcursor"),
-            "input_queue": [],
-            "input_enabled": false,
-            "input": async function (e) {
-                let key = e.key
-                if (
-            [
-              "Alt",
-              "Control",
-              "Shift",
-              "CapsLock",
-              "Tab",
-              "Meta",
-              "ArrowLeft",
-              "ArrowUp",
-              "ArrowRight",
-              "ArrowDown",
-              "Shift",
-              "Backspace",
-              "Dead"
-            ].indexOf(key) === -1
-          ) { document.querySelector("#textarea").innerHTML += key === "Enter" ? "<br>" : key; window.EmuVBE["input_queue"].push(key); } 
-                if(key === "Backspace") { if(document.querySelector("#textarea").innerHTML.split("")[document.querySelector("#textarea").innerHTML.split("").length-1] !== (window.EmuVBE["input_queue"][window.EmuVBE["input_queue"].length - 1] || "")) { e.preventDefault(); } else { 
-let thing = document.querySelector("#textarea").innerHTML.split('');thing.pop();document.querySelector("#textarea").innerHTML = thing.join(''); window.EmuVBE["input_queue"].pop(); } }
-            },
-            "log": function (input) {
-              document.querySelector("#textarea").innerHTML += input.split('\n').join('<br>')
-            },
-            "log_line": function (input) {
-                window.EmuVBE["log"](input + "\n")
-            },
-            "sleep": async (miliseconds) => new Promise(resolve => setTimeout(resolve, miliseconds)),
-            "setup": () => {
-            EmuVBE["element"].setAttribute('readonly', '');
-              setInterval(() => {
-                    // EmuVBE.element.focus()
-                    EmuVBE.element.scrollTo(0, document.body.scrollHeight);
-                    // EmuVBE.element.setSelectionRange(EmuVBE.element.innerHTML.length, EmuVBE.element.innerHTML.length);
-                }, 100)
-            }
+<body onclick="EmuVBE.element.focus()">
+  <script type="module">
+    window.openFullscreen = function openFullscreen() {
+      var elem = document.querySelector('view')
+      if (elem?.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem?.webkitRequestFullscreen) { /* Safari */
+        elem.webkitRequestFullscreen();
+      } else if (elem?.msRequestFullscreen) { /* IE11 */
+        elem.msRequestFullscreen();
+      }
+    }
+
+    async function stdin(input) {
+      stdout(input, false)
+      while (true) { await EmuVBE["sleep"](50); if (EmuVBE["input_queue"][EmuVBE["input_queue"].length - 1] == "Enter") { EmuVBE["input_queue"].pop(); let data = EmuVBE["input_queue"].join(""); EmuVBE["input_queue"] = []; return data; } }
+    }
+    function stdout(output, line, color) {
+      EmuVBE["log"](`<span style="color: #${color ? color : "3d84ff"};">${output}</span>` + (line ? "<br>" : ""))
+      // EmuVBE["log"](output)
+    }
+    function stdclear() {
+      EmuVBE["element"].value = ""
+      document.querySelector("#textarea").innerHTML = ""
+    }
+
+    window.EmuVBE = {
+      "element": document.querySelector("#inputcursor"),
+      "input_queue": [],
+      "input_enabled": false,
+      "input": async function (e) {
+        let key = e.key
+        if (
+          [
+            "Alt",
+            "Control",
+            "Shift",
+            "CapsLock",
+            "Tab",
+            "Meta",
+            "ArrowLeft",
+            "ArrowUp",
+            "ArrowRight",
+            "ArrowDown",
+            "Shift",
+            "Backspace",
+            "Dead"
+          ].indexOf(key) === -1
+        ) { document.querySelector("#textarea").innerHTML += key === "Enter" ? "<br>" : key; window.EmuVBE["input_queue"].push(key); }
+        if (key === "Backspace") {
+          if (document.querySelector("#textarea").innerHTML.split("")[document.querySelector("#textarea").innerHTML.split("").length - 1] !== (window.EmuVBE["input_queue"][window.EmuVBE["input_queue"].length - 1] || "")) { e.preventDefault(); } else {
+            let thing = document.querySelector("#textarea").innerHTML.split(''); thing.pop(); document.querySelector("#textarea").innerHTML = thing.join(''); window.EmuVBE["input_queue"].pop();
+          }
         }
-        window.EmuVBE.setup()
-        window.onload = async () => {
-          if (window.Worker) {
-          const codeURI = URL.createObjectURL(new Blob([`
+      },
+      "log": function (input) {
+        document.querySelector("#textarea").innerHTML += input.split('\n').join('<br>')
+      },
+      "log_line": function (input) {
+        window.EmuVBE["log"](input + "\n")
+      },
+      "sleep": async (miliseconds) => new Promise(resolve => setTimeout(resolve, miliseconds)),
+      "setup": () => {
+        EmuVBE["element"].setAttribute('readonly', '');
+        setInterval(() => {
+          // EmuVBE.element.focus()
+          EmuVBE.element.scrollTo(0, document.body.scrollHeight);
+          // EmuVBE.element.setSelectionRange(EmuVBE.element.innerHTML.length, EmuVBE.element.innerHTML.length);
+        }, 100)
+      }
+    }
+    window.EmuVBE.setup()
+    window.onload = async () => {
+      if (window.Worker) {
+        const codeURI = URL.createObjectURL(new Blob([`
 let runnable = false
 let resultRecieved = false
 let result = ""
 
-let stackjs;
+import stack from 'https://73i5k.csb.app/stack.js' as stackjs;
+
 let version;
 
 const sleep = (milliseconds) => {
@@ -142,198 +142,277 @@ onmessage = async function(e) {
     // initiate
     console.log('webworker is running')
     runnable = true
-    stackjs = await import(e.data[1]);
     stack = stackjs.default;
     version = stack(undefined, {
       stdin: stdin,
       stdout: stdout,
       stdclear: stdclear,
-      javascript: true
+      javascript: true,
+      expansion: {
+        "encodestack": async (stdout, stdin, stdclear, color, line, args, command, code, system) => {
+          let alphabet = "abcdefghijklmnopqrstuvwxyz,./?><:{}|=-+_~ "
+          let params = {
+            "hash1": args.split(" ")[0] || "",
+            "hash2": args.split(" ")[1] || "",
+            "text": args?.substring(args.split(" ")[0]?.length + args.split(" ")[1]?.length + 2, args.length).toLowerCase() || ""
+          };
+          if(params.hash1 === "") { stdout("encodestack: failed to read cipher key 1.", color, true); return; }
+          if(params.hash2 === "") { stdout("encodestack: failed to read cipher key 2.", color, true); return; }
+          if(params.text === "") { stdout("encodestack: failed to read text.", color, true); return; }
+
+          function linefixify(input) {
+            if(input >= alphabet.length) return linefixify(input - alphabet.length)
+            return input
+          }
+
+          var result = "";
+          const hashresult = Math.floor(params.hash1.hashCode() / params.hash2.hashCode())
+          for(var i = 0; i < params.text.length; i++) {
+            var char = params.text[i]
+            if(alphabet.indexOf(char) > -1) {
+              result += alphabet[linefixify(alphabet.indexOf(char) + linefixify(i + 1 + hashresult))]
+            } else {
+              result += "�"
+            }
+          }
+          console.log(system)
+          stdout("Done! Result:\\n" + result, color, true)
+        },
+      "decodestack": async (stdout, stdin, stdclear, color, line, args, command, code, system) => {
+          let alphabet = "abcdefghijklmnopqrstuvwxyz,./?><:{}|=-+_~ "
+          let params = {
+            "hash1": args.split(" ")[0] || "",
+            "hash2": args.split(" ")[1] || "",
+            "text": args?.substring(args.split(" ")[0]?.length + args.split(" ")[1]?.length + 2, args.length).toLowerCase() || ""
+          };
+          if(params.hash1 === "") { stdout("decodestack: failed to read cipher key 1.", color, true); return; }
+          if(params.hash2 === "") { stdout("decodestack: failed to read cipher key 2.", color, true); return; }
+          if(params.text === "") { stdout("decodestack: failed to read text.", color, true); return; }
+
+          function linefixify(input) {
+            if(input >= alphabet.length) return linefixify(input - alphabet.length)
+            return input
+          }
+
+          var result = "";
+          const hashresult = Math.floor(params.hash1.hashCode() / params.hash2.hashCode())
+          for(var i = 0; i < params.text.length; i++) {
+            var char = params.text[i]
+            if(alphabet.indexOf(char) > -1) {
+              result += alphabet[linefixify(alphabet.indexOf(char) - linefixify(i + 1 + hashresult))]
+            } else {
+              result += "�"
+            } 
+          }
+          console.log(system)
+          stdout("Done! Result:\\n" + result, color, true)
+        }
+      }
     })
   }
 }`]))
-          window.saveenabled = false;
-          window.worker = new Worker(codeURI)
-          window.worker.onmessage = async function(e) {
-            const type = e.data[0]
-            const prompt = e.data[1]
-            if(type==="in") {
-              window.worker.postMessage(await stdin(prompt))
-            } else if(type==="fs") {
-              if(saveenabled) localStorage.setItem("fs", JSON.stringify(prompt))
-              setTimeout(() => {
-                window.worker.postMessage(["fs"])
-              }, 500)
-            } else if(type==="clear") {
-              stdclear()
-            } else if(type==="out") {
-              if(prompt === "[MSG_BOOT_DROP_SYSTEM]") {
-                saveenabled = true;
-                window.worker.postMessage(["fs", JSON.parse(localStorage.getItem("fs"))])
-              } else if (prompt === "devsh: load failed due to network interrupt, please refresh the page") {
-                location.reload();
-              } else {
-                stdout(prompt, e.data[2], e.data[3]);
-              }
+        window.saveenabled = false;
+        window.worker = new Worker(codeURI)
+        window.worker.onmessage = async function (e) {
+          const type = e.data[0]
+          const prompt = e.data[1]
+          if (type === "in") {
+            window.worker.postMessage(await stdin(prompt))
+          } else if (type === "fs") {
+            if (saveenabled) localStorage.setItem("fs", JSON.stringify(prompt))
+            setTimeout(() => {
+              window.worker.postMessage(["fs"])
+            }, 500)
+          } else if (type === "clear") {
+            stdclear()
+          } else if (type === "out") {
+            if (prompt === "[MSG_BOOT_DROP_SYSTEM]") {
+              saveenabled = true;
+              window.worker.postMessage(["fs", JSON.parse(localStorage.getItem("fs"))])
+            } else if (prompt === "devsh: load failed due to network interrupt, please refresh the page") {
+              location.reload();
+            } else {
+              stdout(prompt, e.data[2], e.data[3]);
             }
           }
-          window.worker.postMessage(["init", 'https://csb-73i5k.netlify.app/stack.js'])
-          await EmuVBE.sleep(1000)
-          window.worker.postMessage(["execute", 'import boot.st'])
-        } else {
-          window.EmuVBE.log("devsh: browser is not compatible with web workers")
         }
-        }
-    </script>
+        window.worker.postMessage(["init", 'https://73i5k.csb.app/stack.js'])
+        await EmuVBE.sleep(1000)
+        window.worker.postMessage(["execute", 'import boot.st'])
+      } else {
+        window.EmuVBE.log("devsh: browser is not compatible with web workers")
+      }
+    }
+  </script>
 
-<!-- <textarea spellcheck="false" placeholder="Loading EmuVBE..." onkeydown="window.EmuVBE['input']( event )" name="terminal"></textarea> -->
+  <!-- <textarea spellcheck="false" placeholder="Loading EmuVBE..." onkeydown="window.EmuVBE['input']( event )" name="terminal"></textarea> -->
 
-<view>
-<div onclick="
+  <view>
+    <div onclick="
 // openFullscreen();
 EmuVBE.element.focus()
 " id="textarea" spellcheck="false" aria-placeholder="Loading EmuVBE..." name="text"></div>
-<input autocomplete="off" spellcheck="false" placeholder="||" onkeydown="window.EmuVBE['input']( event )" onclick="EmuVBE.element.focus()" id="inputcursor"></input>
-</view>
+    <input autocomplete="off" spellcheck="false" placeholder="||" onkeydown="window.EmuVBE['input']( event )"
+      onclick="EmuVBE.element.focus()" id="inputcursor"></input>
+  </view>
 
-    <style>
-      @font-face {
-        font-family: 'Cascadia Code';
-        font-style: normal;
-        font-weight: 400;
-        src: local('Cascadia Code'), url('https://fonts.cdnfonts.com/s/29131/Cascadia.woff')    format('woff');
+  <style>
+    @font-face {
+      font-family: 'Cascadia Code';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Cascadia Code'), url('https://fonts.cdnfonts.com/s/29131/Cascadia.woff') format('woff');
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #282a36;
+      color: #F8F8F8;
+      font-family: 'Cascadia Code', Menlo, monospace;
+    }
+
+    input {
+      opacity: 0;
+      display: inline;
+      background-color: black;
+      color: black;
+    }
+
+    #textarea::after {
+      content: "|";
+      background-color: #adffff;
+      color: #adffff;
+      animation: 2s cursor-blink infinite;
+    }
+
+    @keyframes cursor-blink {
+      from {
+        opacity: 0%;
       }
 
-      body {
-        margin: 0;
-        padding: 0;
-        background-color: #282a36;
-        color: #F8F8F8;
-        font-family: 'Cascadia Code', Menlo, monospace;
+      50% {
+        opacity: 100%;
       }
 
-      input {
-        opacity: 0;
-        display: inline;
-        background-color: black; 
+      to {
+        opacity: 0%;
+      }
+    }
+
+    input {
+      transform: translate3d(20px, 20px, 0px);
+    }
+
+    view {
+      background-color: #282a36;
+      margin: 0;
+      padding: 0;
+    }
+
+    #textarea {
+      display: inline-block;
+      background-color: #282a36;
+      color: #3d84ff;
+      overflow: hidden;
+      margin: auto;
+      padding: 15px;
+      outline: none;
+    }
+
+    textarea:focus {
+      outline: none;
+      box-shadow: none;
+    }
+
+    textarea::-webkit-scrollbar {
+      display: none;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    li {
+      color: #F8F8F8;
+    }
+
+    @keyframes closed-reveal {
+      from {
         color: black;
       }
 
-      #textarea::after {
-        content: "|";
-        background-color: #adffff;
-        color: #adffff;
-        animation: 2s cursor-blink infinite;
+      80% {
+        color: white;
       }
 
-      @keyframes cursor-blink {
-        from {
-          opacity: 0%;
-        } 50% {
-          opacity: 100%;
-        } to {
-          opacity: 0%;
-        }
+      90% {
+        color: black;
       }
 
-      input {
-        transform: translate3d(20px, 20px, 0px);
-      }
-
-      view {
-        background-color: #282a36;
-        margin: 0;
-        padding: 0;
-      }
-
-      #textarea {
-        display: inline-block;
-        background-color: #282a36;
-        color: #3d84ff;
-        overflow: hidden;
-        margin: auto;
-        padding: 15px;
-        outline: none;
-      }
-
-      textarea:focus {
-            outline: none;
-            box-shadow: none;
-      }
-
-      textarea::-webkit-scrollbar {
-        display: none;
-      }
-
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6,
-      p,
-      li {
+      to {
         color: #F8F8F8;
       }
+    }
 
-      @keyframes closed-reveal {
-        from {
-          color: black;
-        }
-        80% {
-          color: white;
-        }
-        90% {
-          color: black;
-        }
-        to {
-          color: #F8F8F8;
-        }
+    @keyframes img-reveal {
+      from {
+        opacity: 0%;
       }
 
-      @keyframes img-reveal {
-        from {
-          opacity: 0%;
-        } 80% {
-          opacity: 0%;
-        } 90% {
-          opacity: 100%;
-        } to {
-          opacity: 100%;
-        }
+      80% {
+        opacity: 0%;
       }
 
-      @keyframes reveal {
-        from {
-          opacity: 0%;
-          background-color: white;
-        }
-        10% {
-          background-color: #ff7a7a;
-        }
-        30% {
-          opacity: 0%;
-        }
-        80% {
-          background-color: #ff4949;
-        }
-        85% {
-          background-color: black;
-        }
-        to {
-          opacity: 100%;
-          color: #F8F8F8;
-          background-color: #333;
-        }
+      90% {
+        opacity: 100%;
       }
-    </style>
 
-    <script>
-if('serviceWorker' in navigator) {
-  navigator.serviceWorker
-           .register('/sw.js')
-           .then(function() { console.log("Service Worker Registered"); });
-}
-</script>
-  </body>
+      to {
+        opacity: 100%;
+      }
+    }
+
+    @keyframes reveal {
+      from {
+        opacity: 0%;
+        background-color: white;
+      }
+
+      10% {
+        background-color: #ff7a7a;
+      }
+
+      30% {
+        opacity: 0%;
+      }
+
+      80% {
+        background-color: #ff4949;
+      }
+
+      85% {
+        background-color: black;
+      }
+
+      to {
+        opacity: 100%;
+        color: #F8F8F8;
+        background-color: #333;
+      }
+    }
+  </style>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('/sw.js')
+        .then(function () { console.log("Service Worker Registered"); });
+    }
+  </script>
+</body>
+
 </html>

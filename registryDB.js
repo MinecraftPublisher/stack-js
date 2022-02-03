@@ -108,13 +108,13 @@ func pluglands-download
 echo Downloading...
 jscontext pluglands-file
 var xmlHttp = new XMLHttpRequest();
-xmlHttp.open( "GET", "https://csb-73i5k.netlify.app/pluglands/pluglands.st", false );
+xmlHttp.open( "GET", "https://73i5k.csb.app/pluglands/pluglands.st", false );
 xmlHttp.send( null );
 xmlHttp.responseText;
 end pluglands-file
 jscontext latest
 var xmlHttp = new XMLHttpRequest();
-xmlHttp.open( "GET", "https://csb-73i5k.netlify.app/pluglands/pluglands-version", false );
+xmlHttp.open( "GET", "https://73i5k.csb.app/pluglands/pluglands-version", false );
 xmlHttp.send( null );
 xmlHttp.responseText;
 end latest
@@ -136,7 +136,7 @@ echo Checking if the installation is the latest version...
 memwrite version %{read /pluglands-version}
 jscontext latest
 var xmlHttp = new XMLHttpRequest();
-xmlHttp.open( "GET", "https://csb-73i5k.netlify.app/pluglands/pluglands-version", false );
+xmlHttp.open( "GET", "https://73i5k.csb.app/pluglands/pluglands-version", false );
 xmlHttp.send( null );
 xmlHttp.responseText;
 end latest
@@ -156,11 +156,7 @@ existsnotfile /pluglands.st pluglands-prompt
 
 
 `,
-  "test.st": `
-jscontext sample
-require('https://csb-73i5k.netlify.app/stack.js')
-end sample
-echo %{memread sample}
-`
+  "code.st": `# The JS editor for StackJS
+echo WebEdit - v1`
 };
 export default registryDB;

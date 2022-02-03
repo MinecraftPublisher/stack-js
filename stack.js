@@ -29,6 +29,18 @@ export function StackFile(filetext, registryname, jscontext) {
 export const sleep = (ms) => {
   for (const past_timestamp = Date.now() + ms; Date.now() !== past_timestamp; );
 };
+String.prototype.hashCode = function () {
+  var hash = 0,
+    i,
+    chr;
+  if (this.length === 0) return hash;
+  for (i = 0; i < this.length; i++) {
+    chr = this.charCodeAt(i);
+    hash = (hash << 5) - hash + chr;
+    hash |= 0;
+  }
+  return hash;
+};
 export const registry = registryDB;
 /**
  * Make a new StackJS instance.
@@ -68,7 +80,7 @@ export function stack(filesystem, options) {
     stdin: options?.stdin,
     stdout: options?.stdout,
     stdclear: options?.stdclear,
-    expansion: {},
+    expansion: options?.expansion,
     /**
      * Executes a StackScript, And allows javascript context if the file matches the registry.
      *
@@ -422,7 +434,18 @@ export function stack(filesystem, options) {
           };
           commands = Object.assign(commands, this.expansion);
           if (commands[command]) {
-            await commands[command]();
+            // execute the command (given arguments are for expansion packs)
+            await commands[command](
+              stdout,
+              stdin,
+              stdclear,
+              color,
+              line,
+              args,
+              command,
+              code,
+              system
+            );
           } else {
             if (args) {
               this.memory[`func-${command}-args`] = args;
