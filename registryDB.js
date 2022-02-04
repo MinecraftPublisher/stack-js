@@ -40,7 +40,7 @@ func edit
 exists func-edit-args edit-func-sync
 existsnot edit-func-filename edit-func-fileprompt
 hex fff
-prompt ..  
+prompt .. 
 input edit-func-fileinput
 jscontext edit-func-js_input
 stack.filesystem[stack.memory["edit-func-filename"].startsWith('/') ? stack.memory["edit-func-filename"] : stack.path + stack.memory["edit-func-filename"]] ? "write" : "notexists"
@@ -61,7 +61,6 @@ sleep 400
 hex 3dff9e
 module edit
 module devsh
-module code
 sleep 400
 echo Loading devshell...
 sleep 1000
@@ -156,27 +155,6 @@ existsfile /pluglands.st pluglands-continue
 existsnotfile /pluglands.st pluglands-prompt
 
 
-`,
-  "code.st": `# The JS editor for StackJS
-func code
-echo WebEdit - v1
-sleep 300
-echo Preparing...
-sleep 100
-key Injecting stylesheets...
-echo <style>#webedit { margin-top: 5vh; margin-bottom: 5vh; margin-left: 3vw; margin-right: 3vw; border-radius: 8px; width: 94vw; height: 90vh; z-index: 1000; position: fixed; top: 0; left: 0; background-color: #474747; opacity: 90%; } #close-btn { top: 5px; right: 5px; }</style>
-sleep 200
-key Launching...
-echo <div id="webedit"><span id="close-btn" onclick="window.worker.postMessage(['execute', 'memwrite webedit-conditions shutdown']); document.querySelector('#webedit').style.display = 'none';">X</span></div>
-memwrite running running
-memwrite webedit-conditions running
-func connection-loop
-# TODO: Connect to the editor, Fetch and send data
-sleep 200
-if webedit-conditions running connection-loop
-end connection-loop
-connection-loop
-end code
 `
 };
 export default registryDB;
