@@ -65,6 +65,11 @@ sleep 400
 echo Loading devshell...
 sleep 1000
 hex
+func make-bootm
+write /bootM.st 
+end make-bootm
+existsnot /bootM.st make-bootm
+import /bootM.st
 devsh`,
   "devsh.st": `# devshell
 func devsh
@@ -108,13 +113,13 @@ func pluglands-download
 echo Downloading...
 jscontext pluglands-file
 var xmlHttp = new XMLHttpRequest();
-xmlHttp.open( "GET", "https://73i5k.csb.app/pluglands/pluglands.st", false );
+xmlHttp.open( "GET", "https://3000-minecraftpublis-stackjs-8p71zjhjqlu.ws-eu30.gitpod.io/pluglands/pluglands.st", false );
 xmlHttp.send( null );
 xmlHttp.responseText;
 end pluglands-file
 jscontext latest
 var xmlHttp = new XMLHttpRequest();
-xmlHttp.open( "GET", "https://73i5k.csb.app/pluglands/pluglands-version", false );
+xmlHttp.open( "GET", "https://3000-minecraftpublis-stackjs-8p71zjhjqlu.ws-eu30.gitpod.io/pluglands/pluglands-version", false );
 xmlHttp.send( null );
 xmlHttp.responseText;
 end latest
@@ -157,6 +162,28 @@ existsnotfile /pluglands.st pluglands-prompt
 
 `,
   "code.st": `# The JS editor for StackJS
-echo WebEdit - v1`
+echo WebEdit - v1
+echo Checking if WebEdit is defaulted...
+exists /bootM.st code-check
+existsnot /bootM.st bootm-warning
+func code-check
+jscontext result
+(stack.filesystem["/bootM.st"].content.indexOf("module code-import") > -1) ? "code-installed" : "code-inject"
+end result
+end code-check
+func bootm-warning
+echo WARNING: Your system does not have BootM configured, Please restart the system to configure it.
+end bootm-warning
+
+func code-installed
+echo WebEdit is already installed, Please run "code" to start it.
+end code-installed
+
+func code-inject
+echo Couldn't find
+end code-inject
+
+run  %{result}
+`
 };
 export default registryDB;

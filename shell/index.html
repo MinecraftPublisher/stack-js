@@ -11,7 +11,7 @@
   <meta
     content="StackJS is a hybrid operating system that runs in your browser. It has a fully fledged instruction system and a working filesystem."
     property="og:description" />
-  <meta content="https://csb-73i5k.netlify.app/shell/" property="og:url" />
+  <meta content="https://3000-minecraftpublis-stackjs-8p71zjhjqlu.ws-eu30.gitpod.io/shell/" property="og:url" />
   <meta
     content="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAmlJREFUeF7tmb9OAkEQxqEwsUAtjJAQS1/gbOx5B2OtDQ9ApQ+gFQ9Ag7XxHehtvBewNCRgLFQKEwuNhj3d9ea+m/0DBzuU7N7++c33zcxBvRb5px75/WsCQBSwJALJ7fXn363T49OlqHEpm35fPBoA5kW5ggutjOAKEACG10UBTAIrYwEk9fRpwrp6stcqnO8LjLccEB0A3xdG8gilCGsFRANg0RdFSjDHXZUBFSAAQB3nZnduhNF8UYBjucwsUHWpIyXY5gYBULu60N7LM5I721zo1Z7/8pp7vroAUFwoJajxVVMEEfFMBueXP/b/7QMEAJELRAFzAmtvASqHV90aJb1OXQ++C5BVoirW8AUguXvI7wcIdOloWFz3fVsGXDTpnLH6kPToQK8C8QK4GeVHfrepEU22Not/o/OtCMeIp2/v+nmfp0QnKABEAZFbQDmDsoIaN3KC+to5N4DcjbL7P6+r9QjPZ9uddIx3gegBUJFYEJjQkbbvBGMBMO33WZ1gcz8pdi+zjzAXK1vH1XPTx5TVCTZ7PT0HCABRQKQWuO92c73fajQ0T22024Ue4+YEaFhQx5HnP8ZjbYvJbJb/LhA9AIWFAqHGTUWo752VAaTAjbRajoq4Gj8cDPQqED0AKhCLAhM60tadoAAgqoTv3CAKAK2sWda4yc7aAr5yA6oW5j5l67iZ1WF/YUzA/wsQK3Jzw9oBMLlwgaBIla3jaB00bq0AAYDQzseRMtAyqmND82zHvSnANlmigwuAec+OQNmOiwJsybk+Z+aG0FL33ggJAFcCFXk+eA6oyD3JYwiAqkco9Pm+AKquxx4elLXnAAAAAElFTkSuQmCC"
     property="og:image" />
@@ -100,8 +100,7 @@
 let runnable = false
 let resultRecieved = false
 let result = ""
-
-import stack from 'https://73i5k.csb.app/stack.js' as stackjs;
+let stackjs;
 
 let version;
 
@@ -142,6 +141,7 @@ onmessage = async function(e) {
     // initiate
     console.log('webworker is running')
     runnable = true
+    stackjs = await import(e.data[1]);
     stack = stackjs.default;
     version = stack(undefined, {
       stdin: stdin,
@@ -211,7 +211,7 @@ onmessage = async function(e) {
     })
   }
 }`]))
-        window.saveenabled = false;
+        window.saveenabled = false
         window.worker = new Worker(codeURI)
         window.worker.onmessage = async function (e) {
           const type = e.data[0]
@@ -236,7 +236,7 @@ onmessage = async function(e) {
             }
           }
         }
-        window.worker.postMessage(["init", 'https://73i5k.csb.app/stack.js'])
+        window.worker.postMessage(["init", 'https://3000-minecraftpublis-stackjs-8p71zjhjqlu.ws-eu30.gitpod.io/stack.js'])
         await EmuVBE.sleep(1000)
         window.worker.postMessage(["execute", 'import boot.st'])
       } else {
