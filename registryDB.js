@@ -28,7 +28,7 @@ end edit-func-check
 
 func edit-func-sync
 memwrite edit-func-filename %{memread func-edit-args}
-echo Editing: %{memread func-edit-args}
+echo Editing: %{memread func-edit-args} (Type "$$exit" and press enter to quit)
 write %{memread edit-func-filename} %{memread edit-func-read_output}%{memread edit-func-fileinput}
 end edit-func-sync
 
@@ -50,8 +50,8 @@ if edit-func-fileinput edit-func-exit-cmd edit-func-exit
 ifnot edit-func-fileinput edit-func-exit-cmd edit-func-check
 end edit`,
   "boot.st": `
-clear
 echo [MSG_BOOT_DROP_SYSTEM]
+clear
 hex fc447b
 echo StackOS
 sleep 400
@@ -61,15 +61,11 @@ sleep 400
 hex 3dff9e
 module edit
 module devsh
+module code
 sleep 400
 echo Loading devshell...
 sleep 1000
 hex
-func make-bootm
-write /bootM.st 
-end make-bootm
-existsnot /bootM.st make-bootm
-import /bootM.st
 devsh`,
   "devsh.st": `# devshell
 func devsh
@@ -162,28 +158,25 @@ existsnotfile /pluglands.st pluglands-prompt
 
 `,
   "code.st": `# The JS editor for StackJS
+func code
 echo WebEdit - v1
-echo Checking if WebEdit is defaulted...
-exists /bootM.st code-check
-existsnot /bootM.st bootm-warning
-func code-check
-jscontext result
-(stack.filesystem["/bootM.st"].content.indexOf("module code-import") > -1) ? "code-installed" : "code-inject"
-end result
-end code-check
-func bootm-warning
-echo WARNING: Your system does not have BootM configured, Please restart the system to configure it.
-end bootm-warning
-
-func code-installed
-echo WebEdit is already installed, Please run "code" to start it.
-end code-installed
-
-func code-inject
-echo Couldn't find
-end code-inject
-
-run  %{result}
+sleep 300
+echo Preparing...
+sleep 100
+key Injecting stylesheets...
+echo <style>#webedit { margin-top: 5vh; margin-bottom: 5vh; margin-left: 3vw; margin-right: 3vw; border-radius: 8px; width: 94vw; height: 90vh; z-index: 1000; position: fixed; top: 0; left: 0; background-color: #474747; opacity: 90%; } #close-btn { top: 5px; right: 5px; }</style>
+sleep 200
+key Launching...
+echo <div id="webedit"><span id="close-btn" onclick="window.worker.postMessage(['execute', 'memwrite webedit-conditions shutdown']); document.querySelector('#webedit').style.display = 'none';">X</span></div>
+memwrite running running
+memwrite webedit-conditions running
+func connection-loop
+# TODO: Connect to the editor, Fetch and send data
+sleep 200
+if webedit-conditions running connection-loop
+end connection-loop
+connection-loop
+end code
 `
 };
 export default registryDB;
