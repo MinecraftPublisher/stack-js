@@ -28,7 +28,7 @@ end edit-func-check
 
 func edit-func-sync
 memwrite edit-func-filename %{memread func-edit-args}
-echo Editing: %{memread func-edit-args} (Type "$$exit" and press enter to quit)
+echo Editing: %{memread func-edit-args}
 write %{memread edit-func-filename} %{memread edit-func-read_output}%{memread edit-func-fileinput}
 end edit-func-sync
 
@@ -40,7 +40,7 @@ func edit
 exists func-edit-args edit-func-sync
 existsnot edit-func-filename edit-func-fileprompt
 hex fff
-prompt .. 
+prompt ..  
 input edit-func-fileinput
 jscontext edit-func-js_input
 stack.filesystem[stack.memory["edit-func-filename"].startsWith('/') ? stack.memory["edit-func-filename"] : stack.path + stack.memory["edit-func-filename"]] ? "write" : "notexists"
@@ -50,8 +50,8 @@ if edit-func-fileinput edit-func-exit-cmd edit-func-exit
 ifnot edit-func-fileinput edit-func-exit-cmd edit-func-check
 end edit`,
   "boot.st": `
-echo [MSG_BOOT_DROP_SYSTEM]
 clear
+echo [MSG_BOOT_DROP_SYSTEM]
 hex fc447b
 echo StackOS
 sleep 400
@@ -108,13 +108,13 @@ func pluglands-download
 echo Downloading...
 jscontext pluglands-file
 var xmlHttp = new XMLHttpRequest();
-xmlHttp.open( "GET", "https://3000-minecraftpublis-stackjs-8p71zjhjqlu.ws-eu30.gitpod.io/pluglands/pluglands.st", false );
+xmlHttp.open( "GET", "https://73i5k.csb.app/pluglands/pluglands.st", false );
 xmlHttp.send( null );
 xmlHttp.responseText;
 end pluglands-file
 jscontext latest
 var xmlHttp = new XMLHttpRequest();
-xmlHttp.open( "GET", "https://3000-minecraftpublis-stackjs-8p71zjhjqlu.ws-eu30.gitpod.io/pluglands/pluglands-version", false );
+xmlHttp.open( "GET", "https://73i5k.csb.app/pluglands/pluglands-version", false );
 xmlHttp.send( null );
 xmlHttp.responseText;
 end latest
@@ -155,6 +155,8 @@ existsfile /pluglands.st pluglands-continue
 existsnotfile /pluglands.st pluglands-prompt
 
 
-`
+`,
+  "code.st": `# The JS editor for StackJS
+echo WebEdit - v1`
 };
 export default registryDB;
